@@ -10,6 +10,8 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 [![CRAN
 status](https://www.r-pkg.org/badges/version/sigstash)](https://CRAN.R-project.org/package=sigstash)
 [![R-CMD-check](https://github.com/selkamand/sigstash/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/selkamand/sigstash/actions/workflows/R-CMD-check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/selkamand/sigstash/branch/main/graph/badge.svg)](https://app.codecov.io/gh/selkamand/sigstash?branch=main)
 <!-- badges: end -->
 
 **sigstash** makes it easy to load common mutational signature
