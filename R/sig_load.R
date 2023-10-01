@@ -1,0 +1,109 @@
+# Load datasets.csv
+load_datasets <- function(){
+  path_datasets <- system.file("datasets.csv", package = "sigstash")
+  df_datasets <- utils::read.csv(path_datasets, header = TRUE)
+}
+
+
+#' List available Signature Collection
+#'
+#' Lists all available signature collections available in sigstash
+#'
+#' @return a data.frame describing available datasets
+#' @export
+#'
+#' @inherit sig_load examples
+sig_available <- function(){
+  df_datasets = load_datasets()
+  df_datasets <- df_datasets[,c('dataset', 'description')]
+
+  df_datasets = tibble::tibble(df_datasets)
+  return(df_datasets)
+}
+
+
+#' Load a Signature Collection
+#'
+#' @param dataset a valid signature collection to load. Run [sig_available()] to list available datasets.
+#' @param return_df return a data.frame instead of a signature collection list (boolean)
+#'
+#' @return The specified signature collection, either as a list conforming to sigverse signature collection format, or, if `return_df = TRUE` as a data.frame.
+#' @export
+#'
+#' @examples
+#'
+#' # List available datasets
+#' sig_available()
+#'
+#' # Load available datasets
+#' sig_load("COSMIC_v3.3.1_SBS_GRCh38")
+#'
+sig_load <- function(dataset, return_df = FALSE){
+
+  # Assertions
+  assertions::assert_string(dataset)
+  assertions::assert_flag(return_df)
+
+  df_datasets = load_datasets()
+  valid_datasets = df_datasets[['dataset']]
+
+  assertions::assert_subset(dataset, valid_datasets, msg = "`{arg_value}` is not a valid sigstash dataset. See {.code sig_available()} for a list of datasets")
+
+  path = df_datasets[['path_signature']][match(dataset, df_datasets[['dataset']])]
+  path = system.file(path, package = "sigstash")
+
+  df_data = utils::read.csv(path, header = TRUE)
+
+  if(!return_df){
+    ls_data = split(df_data[-1], df_data[['signature']])
+    ls_data = lapply(ls_data, tibble::tibble)
+    return(ls_data)
+  }
+
+  df_data <- tibble::tibble(df_data)
+  return(df_data)
+}
+
+
+#' Load Signature Annotations
+#'
+#' Often signature collections contain annotations describing, for example, aetiology of each signature in collections
+#'
+#' @param dataset a valid signature collection to load. Run [sig_available()] to list available datasets.
+#'
+#' @return A data.frame containing all signature-level annotations of a given signature collection.
+#' @export
+#'
+#' @examples
+#'
+#' # List available datasets
+#' sig_available()
+#'
+#' # Load available datasets
+#' signature_collection <- sig_load("COSMIC_v3.3.1_SBS_GRCh38")
+#'
+#' # Load associated annotations
+#' signature_annotations <- sig_load_annotations("COSMIC_v3.3.1_SBS_GRCh38")
+#'
+sig_load_annotations <- function(dataset){
+
+  # Assertions
+  assertions::assert_string(dataset)
+
+
+  df_datasets = load_datasets()
+  valid_datasets = df_datasets[['dataset']]
+
+  assertions::assert_subset(dataset, valid_datasets, msg = "`{arg_value}` is not a valid sigstash dataset. See {.code sig_available()} for a list of datasets")
+
+  # Read in signature collection
+  annotation_file_no_extension = df_datasets[['annotations']][match(dataset, df_datasets[['dataset']])]
+  path = system.file("reference_signatures/annotations/", paste0(annotation_file_no_extension, ".csv"), package = "sigstash")
+
+  assertions::assert_file_exists(path, msg = "No signature annotation file found for dataset: {.strong {dataset}}")
+  df_data = utils::read.csv(path, header = TRUE)
+
+  # Return annotation data.frame
+  df_data <- tibble::tibble(df_data)
+  return(df_data)
+}

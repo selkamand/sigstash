@@ -1,0 +1,73 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# sigstash
+
+<!-- badges: start -->
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![CRAN status](https://www.r-pkg.org/badges/version/sigstash)](https://CRAN.R-project.org/package=sigstash)
+[![R-CMD-check](https://github.com/selkamand/sigstash/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/selkamand/sigstash/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
+
+**sigstash** makes it easy to load common mutational signature collections into R.
+
+To visualise or simulate decompositions using these signatures, check out the [**sigverse**](https://github.com/selkamand/sigverse)
+
+
+
+## Installation
+
+You can install the development version of sigstash from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("selkamand/sigstash")
+```
+
+## Quick Start
+
+There are only 3 commands you need to know.
+
+1. `sig_available` will list available signature collections
+
+2. `sig_load('collection_name')` will load the signature collection
+
+3. `sig_load_annotations('collection_name')` will load signature-level annotations (e.g. associated aetiologies) 
+
+
+### List available datasets
+
+```{r}
+library(sigstash)
+
+sig_available()
+```
+
+### Load and Visualise datasets
+
+```{r}
+cosmic_signatures = sig_load('COSMIC_v3.3.1_SBS_GRCh38')
+```
+
+
+### Load signature metadata
+
+Some signature collections will include signature level annotations for example describing aetiologies typically associated with signatures. These can be loaded using `sig_load_annotations`
+
+```{r}
+sig_load_annotations('COSMIC_v3.3.1_SBS_GRCh38')
+```
+
+

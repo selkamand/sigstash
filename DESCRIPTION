@@ -1,0 +1,23 @@
+Package: sigstash
+Title: Easily Load Common Mutational Signature Collections into R session
+Version: 0.0.0.9000
+Authors@R: 
+    person("Sam", "El-Kamand", , "selkamand@ccia.org.au", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0003-2270-8088"))
+Description: A collection of published mutational signatures in signature collection format, compatible with the sigverse.
+License: MIT + file LICENSE
+Suggests: 
+    covr,
+    knitr,
+    rlang,
+    rmarkdown,
+    sigshared,
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+VignetteBuilder: knitr
+Imports: 
+    assertions,
+    tibble
