@@ -59,7 +59,12 @@ sig_available()
 ### Load and Visualise datasets
 
 ```{r}
+
+# Load Collection
 cosmic_signatures = sig_load('COSMIC_v3.3.1_SBS_GRCh38')
+
+# Access a specific signature
+cosmic_signatures[['SBS1']]
 ```
 
 

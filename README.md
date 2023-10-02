@@ -63,7 +63,26 @@ sig_available()
 ### Load and Visualise datasets
 
 ``` r
+
+# Load Collection
 cosmic_signatures = sig_load('COSMIC_v3.3.1_SBS_GRCh38')
+
+# Access a specific signature
+cosmic_signatures[['SBS1']]
+#> # A tibble: 96 × 3
+#>    type  channel fraction
+#>    <chr> <chr>      <dbl>
+#>  1 C>A   A[C>A]A 0.000876
+#>  2 C>A   A[C>A]C 0.00222 
+#>  3 C>A   A[C>A]G 0.000180
+#>  4 C>A   A[C>A]T 0.00127 
+#>  5 C>G   A[C>G]A 0.00184 
+#>  6 C>G   A[C>G]C 0.00119 
+#>  7 C>G   A[C>G]G 0.000117
+#>  8 C>G   A[C>G]T 0.00113 
+#>  9 C>T   A[C>T]A 0.0247  
+#> 10 C>T   A[C>T]C 0.00615 
+#> # … with 86 more rows
 ```
 
 ### Load signature metadata
