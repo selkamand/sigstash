@@ -32,8 +32,9 @@ test_that("sig_load_annotations works", {
   for (dataset in datasets){
     expect_error(sig_load_annotations(dataset), NA)
 
-    # sig = sig_load(dataset)
-    #expect_error(sigshared::assert_signature_annotations(sig_load(dataset), sig), NA)
+    sig = sig_load(dataset)
+    sigs = sig[['signature']]
+    expect_error(sigshared::assert_signature_annotations(sig_load_annotations(dataset), required_signatures = sigs), NA)
 
   }
 })
