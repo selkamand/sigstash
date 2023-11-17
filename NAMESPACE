@@ -3,3 +3,4 @@
 export(sig_available)
 export(sig_load)
 export(sig_load_annotations)
+export(sig_reduce_complexity_using_type)

@@ -7,6 +7,7 @@
 #'
 #' @return a list conforming to sigverse signature collection format
 #'
+#' @export
 sig_reduce_complexity_using_type <- function(signatures){
    lapply(signatures, \(sig){
      df = stats::aggregate(fraction ~ type, data = sig, sum)
