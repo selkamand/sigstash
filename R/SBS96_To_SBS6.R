@@ -16,4 +16,3 @@ sig_reduce_complexity_using_type <- function(signatures){
      return(df)
    })
 }
-

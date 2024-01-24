@@ -9,8 +9,10 @@ License: MIT + file LICENSE
 Suggests: 
     covr,
     knitr,
+    quadprog,
     rlang,
     rmarkdown,
+    sigminer,
     sigshared,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
