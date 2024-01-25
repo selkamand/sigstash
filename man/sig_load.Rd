@@ -4,18 +4,26 @@
 \alias{sig_load}
 \title{Load a Signature Collection}
 \usage{
-sig_load(dataset, return_df = FALSE)
+sig_load(dataset, format = c("sigstash", "tidy", "sigminer"))
 }
 \arguments{
 \item{dataset}{a valid signature collection to load. Run \code{\link[=sig_available]{sig_available()}} to list available datasets.}
 
-\item{return_df}{return a data.frame instead of a signature collection list (boolean)}
+\item{format}{what format should we return signature collection in (string)}
 }
 \value{
 The specified signature collection, either as a list conforming to sigverse signature collection format, or, if \code{return_df = TRUE} as a data.frame.
 }
 \description{
 Load a Signature Collection
+}
+\details{
+Use the format \strong{format} argument to change return format:\tabular{ll}{
+    \tab  \cr
+   \strong{sigstash} \tab Signatures returned as a list of dataframes where each data.frame is a signature \cr
+   \strong{tidy} \tab Signatures returned as a tidy 4-column dataframe with signature, type, channel, fraction \cr
+   \strong{sigminer} \tab Signatures returned as a single dataframe where columns are samples and rows are channels. Compatible with sigminer \cr
+}
 }
 \examples{
 

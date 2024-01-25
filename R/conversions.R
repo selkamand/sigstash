@@ -10,6 +10,7 @@
 # @return list of data.frames
 #
 # @examples
+#
 # orig_file = 'COSMIC_v3.3.1_SBS_GRCh37.txt'
 # path = system.file("original_files", orig_file, package = "sigstash")
 # data = utils::read.csv(path, header = TRUE, sep = "\t")
@@ -178,4 +179,58 @@ cosmic_id_channel_to_type <- function(){
     `4:Del:M:1` = "4:Del:M", `4:Del:M:2` = "4:Del:M", `4:Del:M:3` = "4:Del:M",
     `5:Del:M:1` = "5:Del:M", `5:Del:M:2` = "5:Del:M", `5:Del:M:3` = "5:Del:M",
     `5:Del:M:4` = "5:Del:M", `5:Del:M:5` = "5:Del:M")
+}
+
+
+
+# Export Data -------------------------------------------------------------
+#' Sigstash Collection -> Sigminer
+#'
+#' Converts a sigstash format signature collection to a sigminer-compatible signature database.
+#' This lets you run sigminer signature analyses sigs using sigstash
+#'
+#' @param signatures a signature collection
+#' @return a signature data.frame compatible with `sig` argument of sigmienr sig_fit()
+#' @export
+#'
+#' @details
+#' sigminer sig arguments allows a data.frame with rows
+#' representing components and columns representing signatures
+#'
+#' @examples
+#' # Load packages for signature fitting
+#' library(sigminer)
+#' library(quadprog)
+#'
+#' # Load available datasets
+#' signature_collection <- sig_load("COSMIC_v3.3.1_SBS_GRCh38")
+#'
+#' # Sigminer
+#' sigminer_collection <- sig_collection_to_sigminer(signature_collection)
+#'
+#' # Create Mock Sample Data
+#' sample_data <- matrix(ncol = 3, runif(n = 96*3, min = 0, max = 20))
+#'
+#' # Run Sigminer
+#' sig_fit(sample_data, sig = sigminer_collection)
+#'
+#'
+sig_collection_to_sigminer <- function(signatures){
+  sigshared::assert_signature_collection(signatures)
+  assertions::assert_greater_than(length(signatures), minimum = 0)
+
+  first_sig_channel_order = signatures[[1]][['channel']]
+
+  ls <- lapply(seq_along(signatures), FUN = \(i){
+    sig <- signatures[[i]]
+    assertions::assert_identical(first_sig_channel_order, sig[['channel']])
+    df_fraction <- sig[,'fraction']
+    colnames(df_fraction) <- names(signatures)[i]
+    return(df_fraction)
+  })
+  df_wide <- do.call("cbind", ls)
+
+
+  rownames(df_wide) <- first_sig_channel_order
+  return(df_wide)
 }
