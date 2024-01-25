@@ -81,7 +81,7 @@ sig_load <- function(dataset, format = c('sigstash', 'tidy', 'sigminer')){
     return(df_data)
   }
 
-  cli::cli_abort('Unexpected value of {.arg format}: {format}')
+  stop('Unexpected value of `format` argument: ', paste0(format, collapse = ","))
 
   return(invisible(NULL))
 }
