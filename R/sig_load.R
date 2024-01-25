@@ -25,7 +25,7 @@ sig_available <- function(){
 #' Load a Signature Collection
 #'
 #' @param dataset a valid signature collection to load. Run [sig_available()] to list available datasets.
-#' @param return_df return a data.frame instead of a signature collection list (boolean)
+#' @param format what format should we return signature collection in (string)
 #'
 #' @return The specified signature collection, either as a list conforming to sigverse signature collection format, or, if `return_df = TRUE` as a data.frame.
 #' @export
@@ -38,11 +38,19 @@ sig_available <- function(){
 #' # Load available datasets
 #' sig_load("COSMIC_v3.3.1_SBS_GRCh38")
 #'
-sig_load <- function(dataset, return_df = FALSE){
+#' @details
+#' Use the format \strong{format} argument to change return format:
+#'
+#' |                   |                                                                                               |
+#' |-------------------|-----------------------------------------------------------------------------------------------|
+#' | \strong{sigstash} | Signatures returned as a list of dataframes where each data.frame is a signature              |
+#' | \strong{tidy}     | Signatures returned as a tidy 4-column dataframe with signature, type, channel, fraction      |
+#' | \strong{sigminer} | Signatures returned as a single dataframe where columns are samples and rows are channels. Compatible with sigminer |
+sig_load <- function(dataset, format = c('sigstash', 'tidy', 'sigminer')){
 
   # Assertions
   assertions::assert_string(dataset)
-  assertions::assert_flag(return_df)
+  format <- rlang::arg_match(format)
 
   df_datasets = load_datasets()
   valid_datasets = df_datasets[['dataset']]
@@ -54,14 +62,28 @@ sig_load <- function(dataset, return_df = FALSE){
 
   df_data = utils::read.csv(path, header = TRUE)
 
-  if(!return_df){
+  if(format == "sigstash"){
     ls_data = split(df_data[-1], df_data[['signature']])
     ls_data = lapply(ls_data, tibble::tibble)
     return(ls_data)
   }
 
-  df_data <- tibble::tibble(df_data)
-  return(df_data)
+  if (format == "data.frame"){
+    df_data <- tibble::as_tibble(df_data)
+    return(df_data)
+  }
+
+  if (format == "sigminer"){
+    # TODO: implement
+    ls_data = split(df_data[-1], df_data[['signature']])
+    ls_data = lapply(ls_data, tibble::tibble)
+    df_data = sig_collection_to_sigminer(ls_data)
+    return(df_data)
+  }
+
+  cli::cli_abort('Unexpected value of {.arg format}: {format}')
+
+  return(invisible(NULL))
 }
 
 
