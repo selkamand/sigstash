@@ -68,7 +68,7 @@ sig_load <- function(dataset, format = c('sigstash', 'tidy', 'sigminer')){
     return(ls_data)
   }
 
-  if (format == "data.frame"){
+  if (format == "tidy"){
     df_data <- tibble::as_tibble(df_data)
     return(df_data)
   }

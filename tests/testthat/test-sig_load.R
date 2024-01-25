@@ -14,8 +14,11 @@ test_that("sig_load works", {
   }
 
 
-  # Expect Dataframe Output When return_df is TRUE
-  expect_s3_class(sig_load(datasets[1], return_df = TRUE), 'data.frame')
+  # Expect Dataframe Output When format = "tidy"
+  expect_s3_class(sig_load(datasets[1], format = "tidy"), 'data.frame')
+
+  # Expect Dataframe Output When format = "sigminer"
+  expect_s3_class(sig_load(datasets[1], format = "sigminer"), 'data.frame')
 
 })
 
