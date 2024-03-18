@@ -2,6 +2,7 @@
 load_datasets <- function(){
   path_datasets <- system.file("datasets.csv", package = "sigstash")
   df_datasets <- utils::read.csv(path_datasets, header = TRUE)
+  return(df_datasets)
 }
 
 
