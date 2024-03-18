@@ -15,15 +15,16 @@ for (i in seq_along(vec_file_sigclass)){
   orig_file = names(vec_file_sigclass)[i]
   sigclass = vec_file_sigclass[i]
 
-  path = system.file("original_files", orig_file, package = "sigstash")
+  path = system.file("original_files/cosmic", orig_file, package = "sigstash")
   data = utils::read.csv(path, header = TRUE, sep = "\t")
 
   # Convert to sigstash-style
   df_sigs = sig_cosmic_to_sigstash(data, sigclass = sigclass)
 
   # Write output
-  message('Writing: ', outfile)
   outfile = paste0(tools::file_path_sans_ext(basename(orig_file)), '.csv')
+  message('Writing: ', outfile)
+
   utils::write.csv(df_sigs, file = paste0(path_inst, "/reference_signatures/", outfile), row.names = FALSE, quote = TRUE)
 }
 
