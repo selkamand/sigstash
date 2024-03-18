@@ -1,7 +1,7 @@
 # Convert: COSMIC > SIGVERSE DataFrame
 #
 # Cosmic Style to sigverse style signature collection files.
-# Note you'll still need to manually add a 'type' column convert signatures
+# For example of use see inst/original_files/cosmic/comsic_to_sigverse.R script
 #
 # @param data cosmic style dataframe.
 # Has header line, 1 column for each signature, and first column corresponds to the channel.
@@ -12,7 +12,7 @@
 # @examples
 #
 # orig_file = 'COSMIC_v3.3.1_SBS_GRCh37.txt'
-# path = system.file("original_files", orig_file, package = "sigstash")
+# path = system.file("original_files/cosmic", orig_file, package = "sigstash")
 # data = utils::read.csv(path, header = TRUE, sep = "\t")
 #
 # # Convert to sigstash-style
@@ -128,26 +128,26 @@ cosmic_cn_channel_to_type <- function(){
 }
 
 cosmic_dbs_channel_to_type <- function(){
-  c(`AC>CA` = "AC>CA", `AC>CG` = "AC>CG", `AC>CT` = "AC>CT", `AC>GA` = "AC>GA",
-    `AC>GG` = "AC>GG", `AC>GT` = "AC>GT", `AC>TA` = "AC>TA", `AC>TG` = "AC>TG",
-    `AC>TT` = "AC>TT", `AT>CA` = "AT>CA", `AT>CC` = "AT>CC", `AT>CG` = "AT>CG",
-    `AT>GA` = "AT>GA", `AT>GC` = "AT>GC", `AT>TA` = "AT>TA", `CC>AA` = "CC>AA",
-    `CC>AG` = "CC>AG", `CC>AT` = "CC>AT", `CC>GA` = "CC>GA", `CC>GG` = "CC>GG",
-    `CC>GT` = "CC>GT", `CC>TA` = "CC>TA", `CC>TG` = "CC>TG", `CC>TT` = "CC>TT",
-    `CG>AT` = "CG>AT", `CG>GC` = "CG>GC", `CG>GT` = "CG>GT", `CG>TA` = "CG>TA",
-    `CG>TC` = "CG>TC", `CG>TT` = "CG>TT", `CT>AA` = "CT>AA", `CT>AC` = "CT>AC",
-    `CT>AG` = "CT>AG", `CT>GA` = "CT>GA", `CT>GC` = "CT>GC", `CT>GG` = "CT>GG",
-    `CT>TA` = "CT>TA", `CT>TC` = "CT>TC", `CT>TG` = "CT>TG", `GC>AA` = "GC>AA",
-    `GC>AG` = "GC>AG", `GC>AT` = "GC>AT", `GC>CA` = "GC>CA", `GC>CG` = "GC>CG",
-    `GC>TA` = "GC>TA", `TA>AT` = "TA>AT", `TA>CG` = "TA>CG", `TA>CT` = "TA>CT",
-    `TA>GC` = "TA>GC", `TA>GG` = "TA>GG", `TA>GT` = "TA>GT", `TC>AA` = "TC>AA",
-    `TC>AG` = "TC>AG", `TC>AT` = "TC>AT", `TC>CA` = "TC>CA", `TC>CG` = "TC>CG",
-    `TC>CT` = "TC>CT", `TC>GA` = "TC>GA", `TC>GG` = "TC>GG", `TC>GT` = "TC>GT",
-    `TG>AA` = "TG>AA", `TG>AC` = "TG>AC", `TG>AT` = "TG>AT", `TG>CA` = "TG>CA",
-    `TG>CC` = "TG>CC", `TG>CT` = "TG>CT", `TG>GA` = "TG>GA", `TG>GC` = "TG>GC",
-    `TG>GT` = "TG>GT", `TT>AA` = "TT>AA", `TT>AC` = "TT>AC", `TT>AG` = "TT>AG",
-    `TT>CA` = "TT>CA", `TT>CC` = "TT>CC", `TT>CG` = "TT>CG", `TT>GA` = "TT>GA",
-    `TT>GC` = "TT>GC", `TT>GG` = "TT>GG")
+  c(`AC>CA` = "AC>NN", `AC>CG` = "AC>NN", `AC>CT` = "AC>NN", `AC>GA` = "AC>NN",
+    `AC>GG` = "AC>NN", `AC>GT` = "AC>NN", `AC>TA` = "AC>NN", `AC>TG` = "AC>NN",
+    `AC>TT` = "AC>NN", `AT>CA` = "AT>NN", `AT>CC` = "AT>NN", `AT>CG` = "AT>NN",
+    `AT>GA` = "AT>NN", `AT>GC` = "AT>NN", `AT>TA` = "AT>NN", `CC>AA` = "CC>NN",
+    `CC>AG` = "CC>NN", `CC>AT` = "CC>NN", `CC>GA` = "CC>NN", `CC>GG` = "CC>NN",
+    `CC>GT` = "CC>NN", `CC>TA` = "CC>NN", `CC>TG` = "CC>NN", `CC>TT` = "CC>NN",
+    `CG>AT` = "CG>NN", `CG>GC` = "CG>NN", `CG>GT` = "CG>NN", `CG>TA` = "CG>NN",
+    `CG>TC` = "CG>NN", `CG>TT` = "CG>NN", `CT>AA` = "CT>NN", `CT>AC` = "CT>NN",
+    `CT>AG` = "CT>NN", `CT>GA` = "CT>NN", `CT>GC` = "CT>NN", `CT>GG` = "CT>NN",
+    `CT>TA` = "CT>NN", `CT>TC` = "CT>NN", `CT>TG` = "CT>NN", `GC>AA` = "GC>NN",
+    `GC>AG` = "GC>NN", `GC>AT` = "GC>NN", `GC>CA` = "GC>NN", `GC>CG` = "GC>NN",
+    `GC>TA` = "GC>NN", `TA>AT` = "TA>NN", `TA>CG` = "TA>NN", `TA>CT` = "TA>NN",
+    `TA>GC` = "TA>NN", `TA>GG` = "TA>NN", `TA>GT` = "TA>NN", `TC>AA` = "TC>NN",
+    `TC>AG` = "TC>NN", `TC>AT` = "TC>NN", `TC>CA` = "TC>NN", `TC>CG` = "TC>NN",
+    `TC>CT` = "TC>NN", `TC>GA` = "TC>NN", `TC>GG` = "TC>NN", `TC>GT` = "TC>NN",
+    `TG>AA` = "TG>NN", `TG>AC` = "TG>NN", `TG>AT` = "TG>NN", `TG>CA` = "TG>NN",
+    `TG>CC` = "TG>NN", `TG>CT` = "TG>NN", `TG>GA` = "TG>NN", `TG>GC` = "TG>NN",
+    `TG>GT` = "TG>NN", `TT>AA` = "TT>NN", `TT>AC` = "TT>NN", `TT>AG` = "TT>NN",
+    `TT>CA` = "TT>NN", `TT>CC` = "TT>NN", `TT>CG` = "TT>NN", `TT>GA` = "TT>NN",
+    `TT>GC` = "TT>NN", `TT>GG` = "TT>NN")
 }
 
 cosmic_id_channel_to_type <- function(){
