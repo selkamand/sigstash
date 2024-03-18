@@ -21,65 +21,63 @@
 # # Write output
 # outfile = paste0(tools::file_path_sans_ext(basename(orig_file)), '.csv')
 # utils::write.csv(df_sigs, file = paste0("inst/reference_signatures/", outfile), row.names = FALSE, quote = TRUE)
-sig_cosmic_to_sigstash <- function(data, sigclass = c("SBS", "ID", "CN", "DBS")){
+sig_cosmic_to_sigstash <- function(data, sigclass = c("SBS", "ID", "CN", "DBS")) {
   requireNamespace("rlang", quietly = TRUE)
 
-  sigclass = rlang::arg_match(sigclass)
+  sigclass <- rlang::arg_match(sigclass)
 
-  signames = colnames(data)[-1]
-  channels = data[[1]]
-  types = channel2type(channels, sigclass)
+  signames <- colnames(data)[-1]
+  channels <- data[[1]]
+  types <- channel2type(channels, sigclass)
 
   # For each signature ...
-  ls_signatures = lapply(X = signames, FUN = \(sig){
-
+  ls_signatures <- lapply(X = signames, FUN = \(sig){
     # Create a data.frame with just Type (renamed to channel) and fractions
-    df_sig = data[,c('Type', sig)]
-    colnames(df_sig) <- c('channel', 'fraction')
+    df_sig <- data[, c("Type", sig)]
+    colnames(df_sig) <- c("channel", "fraction")
 
     # Add sigverse defined 'type' column, and 'signature' column describing name
-    df_sig[['type']] <- types
-    df_sig[['signature']] <- sig
-    df_sig <- df_sig[, c('signature', 'type', 'channel', 'fraction')]
+    df_sig[["type"]] <- types
+    df_sig[["signature"]] <- sig
+    df_sig <- df_sig[, c("signature", "type", "channel", "fraction")]
 
     # Convert to tibble
-    df_sig = tibble::tibble(df_sig)
+    df_sig <- tibble::tibble(df_sig)
 
     # Return 3 column tibble (channel, type, fraction)
     return(df_sig)
+  })
 
-    })
-
-  df_signatures = do.call('rbind', ls_signatures)
+  df_signatures <- do.call("rbind", ls_signatures)
   return(df_signatures)
-  #names(ls_signatures) <- signames
+  # names(ls_signatures) <- signames
 
-  #return(ls_signatures)
+  # return(ls_signatures)
 }
 
-channel2type <- function(channel, sigclass = c("SBS", "ID", "CN", "DBS")){
+channel2type <- function(channel, sigclass = c("SBS", "ID", "CN", "DBS")) {
   requireNamespace("rlang", quietly = TRUE)
-  sigclass = rlang::arg_match(sigclass)
+  sigclass <- rlang::arg_match(sigclass)
 
-  if(sigclass == "SBS")
+  if (sigclass == "SBS") {
     vec_channel2type <- cosmic_sbs_channel_to_type()
-  else if(sigclass == "CN")
+  } else if (sigclass == "CN") {
     vec_channel2type <- cosmic_cn_channel_to_type()
-  else if(sigclass == "ID")
+  } else if (sigclass == "ID") {
     vec_channel2type <- cosmic_id_channel_to_type()
-  else if(sigclass == "DBS")
+  } else if (sigclass == "DBS") {
     vec_channel2type <- cosmic_dbs_channel_to_type()
-  else
-    stop('unexpected sigclass')
+  } else {
+    stop("unexpected sigclass")
+  }
 
   types <- vec_channel2type[match(channel, names(vec_channel2type))]
   return(types)
-
 }
 
-cosmic_sbs_channel_to_type <- function(){
-
-  c(`A[C>A]A` = "C>A", `A[C>A]C` = "C>A", `A[C>A]G` = "C>A", `A[C>A]T` = "C>A",
+cosmic_sbs_channel_to_type <- function() {
+  c(
+    `A[C>A]A` = "C>A", `A[C>A]C` = "C>A", `A[C>A]G` = "C>A", `A[C>A]T` = "C>A",
     `A[C>G]A` = "C>G", `A[C>G]C` = "C>G", `A[C>G]G` = "C>G", `A[C>G]T` = "C>G",
     `A[C>T]A` = "C>T", `A[C>T]C` = "C>T", `A[C>T]G` = "C>T", `A[C>T]T` = "C>T",
     `A[T>A]A` = "T>A", `A[T>A]C` = "T>A", `A[T>A]G` = "T>A", `A[T>A]T` = "T>A",
@@ -107,8 +105,9 @@ cosmic_sbs_channel_to_type <- function(){
 }
 
 
-cosmic_cn_channel_to_type <- function(){
-  c(`0:homdel:0-100kb` = "0", `0:homdel:100kb-1Mb` = "0", `0:homdel:>1Mb` = "0",
+cosmic_cn_channel_to_type <- function() {
+  c(
+    `0:homdel:0-100kb` = "0", `0:homdel:100kb-1Mb` = "0", `0:homdel:>1Mb` = "0",
     `1:LOH:0-100kb` = "1", `1:LOH:100kb-1Mb` = "1", `1:LOH:1Mb-10Mb` = "1",
     `1:LOH:10Mb-40Mb` = "1", `1:LOH:>40Mb` = "1", `2:LOH:0-100kb` = "2",
     `2:LOH:100kb-1Mb` = "2", `2:LOH:1Mb-10Mb` = "2", `2:LOH:10Mb-40Mb` = "2",
@@ -127,8 +126,9 @@ cosmic_cn_channel_to_type <- function(){
   )
 }
 
-cosmic_dbs_channel_to_type <- function(){
-  c(`AC>CA` = "AC>NN", `AC>CG` = "AC>NN", `AC>CT` = "AC>NN", `AC>GA` = "AC>NN",
+cosmic_dbs_channel_to_type <- function() {
+  c(
+    `AC>CA` = "AC>NN", `AC>CG` = "AC>NN", `AC>CT` = "AC>NN", `AC>GA` = "AC>NN",
     `AC>GG` = "AC>NN", `AC>GT` = "AC>NN", `AC>TA` = "AC>NN", `AC>TG` = "AC>NN",
     `AC>TT` = "AC>NN", `AT>CA` = "AT>NN", `AT>CC` = "AT>NN", `AT>CG` = "AT>NN",
     `AT>GA` = "AT>NN", `AT>GC` = "AT>NN", `AT>TA` = "AT>NN", `CC>AA` = "CC>NN",
@@ -147,11 +147,13 @@ cosmic_dbs_channel_to_type <- function(){
     `TG>CC` = "TG>NN", `TG>CT` = "TG>NN", `TG>GA` = "TG>NN", `TG>GC` = "TG>NN",
     `TG>GT` = "TG>NN", `TT>AA` = "TT>NN", `TT>AC` = "TT>NN", `TT>AG` = "TT>NN",
     `TT>CA` = "TT>NN", `TT>CC` = "TT>NN", `TT>CG` = "TT>NN", `TT>GA` = "TT>NN",
-    `TT>GC` = "TT>NN", `TT>GG` = "TT>NN")
+    `TT>GC` = "TT>NN", `TT>GG` = "TT>NN"
+  )
 }
 
-cosmic_id_channel_to_type <- function(){
-  c(`1:Del:C:0` = "1:Del:C", `1:Del:C:1` = "1:Del:C", `1:Del:C:2` = "1:Del:C",
+cosmic_id_channel_to_type <- function() {
+  c(
+    `1:Del:C:0` = "1:Del:C", `1:Del:C:1` = "1:Del:C", `1:Del:C:2` = "1:Del:C",
     `1:Del:C:3` = "1:Del:C", `1:Del:C:4` = "1:Del:C", `1:Del:C:5` = "1:Del:C",
     `1:Del:T:0` = "1:Del:T", `1:Del:T:1` = "1:Del:T", `1:Del:T:2` = "1:Del:T",
     `1:Del:T:3` = "1:Del:T", `1:Del:T:4` = "1:Del:T", `1:Del:T:5` = "1:Del:T",
@@ -178,7 +180,8 @@ cosmic_id_channel_to_type <- function(){
     `2:Del:M:1` = "2:Del:M", `3:Del:M:1` = "3:Del:M", `3:Del:M:2` = "3:Del:M",
     `4:Del:M:1` = "4:Del:M", `4:Del:M:2` = "4:Del:M", `4:Del:M:3` = "4:Del:M",
     `5:Del:M:1` = "5:Del:M", `5:Del:M:2` = "5:Del:M", `5:Del:M:3` = "5:Del:M",
-    `5:Del:M:4` = "5:Del:M", `5:Del:M:5` = "5:Del:M")
+    `5:Del:M:4` = "5:Del:M", `5:Del:M:5` = "5:Del:M"
+  )
 }
 
 
@@ -209,22 +212,21 @@ cosmic_id_channel_to_type <- function(){
 #' sigminer_collection <- sig_collection_to_sigminer(signature_collection)
 #'
 #' # Create Mock Sample Data
-#' sample_data <- matrix(ncol = 3, runif(n = 96*3, min = 0, max = 20))
+#' sample_data <- matrix(ncol = 3, runif(n = 96 * 3, min = 0, max = 20))
 #'
 #' # Run Sigminer
 #' sig_fit(sample_data, sig = sigminer_collection)
 #'
-#'
-sig_collection_to_sigminer <- function(signatures){
+sig_collection_to_sigminer <- function(signatures) {
   sigshared::assert_signature_collection(signatures)
   assertions::assert_greater_than(length(signatures), minimum = 0)
 
-  first_sig_channel_order = signatures[[1]][['channel']]
+  first_sig_channel_order <- signatures[[1]][["channel"]]
 
   ls <- lapply(seq_along(signatures), FUN = \(i){
     sig <- signatures[[i]]
-    assertions::assert_identical(first_sig_channel_order, sig[['channel']])
-    df_fraction <- sig[,'fraction']
+    assertions::assert_identical(first_sig_channel_order, sig[["channel"]])
+    df_fraction <- sig[, "fraction"]
     colnames(df_fraction) <- names(signatures)[i]
     return(df_fraction)
   })

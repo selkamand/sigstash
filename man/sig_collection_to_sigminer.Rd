@@ -32,10 +32,9 @@ signature_collection <- sig_load("COSMIC_v3.3.1_SBS_GRCh38")
 sigminer_collection <- sig_collection_to_sigminer(signature_collection)
 
 # Create Mock Sample Data
-sample_data <- matrix(ncol = 3, runif(n = 96*3, min = 0, max = 20))
+sample_data <- matrix(ncol = 3, runif(n = 96 * 3, min = 0, max = 20))
 
 # Run Sigminer
 sig_fit(sample_data, sig = sigminer_collection)
-
 
 }

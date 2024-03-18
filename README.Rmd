@@ -59,12 +59,11 @@ sig_available()
 ### Load and Visualise datasets
 
 ```{r}
-
 # Load Collection
-cosmic_signatures = sig_load('COSMIC_v3.3.1_SBS_GRCh38')
+cosmic_signatures <- sig_load("COSMIC_v3.3.1_SBS_GRCh38")
 
 # Access a specific signature
-cosmic_signatures[['SBS1']]
+cosmic_signatures[["SBS1"]]
 ```
 
 
@@ -73,7 +72,7 @@ cosmic_signatures[['SBS1']]
 Some signature collections will include signature level annotations for example describing aetiologies typically associated with signatures. These can be loaded using `sig_load_annotations`
 
 ```{r}
-sig_load_annotations('COSMIC_v3.3.1_SBS_GRCh38')
+sig_load_annotations("COSMIC_v3.3.1_SBS_GRCh38")
 ```
 
 

@@ -63,12 +63,11 @@ sig_available()
 ### Load and Visualise datasets
 
 ``` r
-
 # Load Collection
-cosmic_signatures = sig_load('COSMIC_v3.3.1_SBS_GRCh38')
+cosmic_signatures <- sig_load("COSMIC_v3.3.1_SBS_GRCh38")
 
 # Access a specific signature
-cosmic_signatures[['SBS1']]
+cosmic_signatures[["SBS1"]]
 #> # A tibble: 96 × 3
 #>    type  channel fraction
 #>    <chr> <chr>      <dbl>
@@ -82,7 +81,7 @@ cosmic_signatures[['SBS1']]
 #>  8 C>G   A[C>G]T 0.00113 
 #>  9 C>T   A[C>T]A 0.0247  
 #> 10 C>T   A[C>T]C 0.00615 
-#> # … with 86 more rows
+#> # ℹ 86 more rows
 ```
 
 ### Load signature metadata
@@ -92,23 +91,23 @@ example describing aetiologies typically associated with signatures.
 These can be loaded using `sig_load_annotations`
 
 ``` r
-sig_load_annotations('COSMIC_v3.3.1_SBS_GRCh38')
+sig_load_annotations("COSMIC_v3.3.1_SBS_GRCh38")
 #> # A tibble: 79 × 14
-#>    signa…¹ class subcl…² aetio…³ aetio…⁴ comment Signa…⁵ Ident…⁶ Ident…⁷ Exper…⁸
-#>    <chr>   <chr> <chr>   <chr>   <chr>   <chr>   <chr>   <chr>   <chr>   <chr>  
-#>  1 SBS1    cloc… clock-… " Spon… An end… "Signa… Mutati… Nik-Za… https:… ""     
-#>  2 SBS2    cyti… cytidi… " APOB… Attrib… "SBS2 … Mutati… Nik-Za… https:… "Chan …
-#>  3 SBS3    dysf… HR      " HR d… Defect… "SBS3 … Mutati… Nik-Za… https:… "Zámbo…
-#>  4 SBS4    envi… tobacco " Agin… Associ… "Altho… Mutati… Alexan… https:… "Nik-Z…
-#>  5 SBS5    cloc… clock-… " Agin… Unknow… "SBS5 … Mutati… Alexan… https:… ""     
-#>  6 SBS6    dysf… MMR     " MMR … SBS6 i… "SBS6 … Mutati… Alexan… https:… "Meier…
-#>  7 SBS7a   envi… UV      " UV l… SBS7a/… ""      Mutati… Haywar… https:… "Nik-Z…
-#>  8 SBS7b   envi… UV      " UV l… SBS7a/… ""      Mutati… Haywar… https:… "Nik-Z…
-#>  9 SBS7c   envi… UV      " UV l… SBS7a/… ""      Mutati… Saini … https:… ""     
-#> 10 SBS7d   envi… UV      " UV l… SBS7a/… ""      Mutati… Saini … https:… ""     
-#> # … with 69 more rows, 4 more variables: ExperimentalValidationURL <chr>,
+#>    signature class    subclass aetiology aetiology_long comment SignatureVersion
+#>    <chr>     <chr>    <chr>    <chr>     <chr>          <chr>   <chr>           
+#>  1 SBS1      clock-l… clock-l… " Sponta… An endogenous… "Signa… Mutational Sign…
+#>  2 SBS2      cytidin… cytidin… " APOBEC… Attributed to… "SBS2 … Mutational Sign…
+#>  3 SBS3      dysfunc… HR       " HR def… Defective hom… "SBS3 … Mutational Sign…
+#>  4 SBS4      environ… tobacco  " Aging … Associated wi… "Altho… Mutational Sign…
+#>  5 SBS5      clock-l… clock-l… " Aging … Unknown. SBS5… "SBS5 … Mutational Sign…
+#>  6 SBS6      dysfunc… MMR      " MMR de… SBS6 is assoc… "SBS6 … Mutational Sign…
+#>  7 SBS7a     environ… UV       " UV lig… SBS7a/SBS7b/S… ""      Mutational Sign…
+#>  8 SBS7b     environ… UV       " UV lig… SBS7a/SBS7b/S… ""      Mutational Sign…
+#>  9 SBS7c     environ… UV       " UV lig… SBS7a/SBS7b/S… ""      Mutational Sign…
+#> 10 SBS7d     environ… UV       " UV lig… SBS7a/SBS7b/S… ""      Mutational Sign…
+#> # ℹ 69 more rows
+#> # ℹ 7 more variables: IdentificationStudy <chr>, IdentificationStudyURL <chr>,
+#> #   ExperimentalValidationStudy <chr>, ExperimentalValidationURL <chr>,
 #> #   ProposedAetiologySupport <chr>, ValidatedInOrthogonalTechniques <chr>,
-#> #   source.page <chr>, and abbreviated variable names ¹​signature, ²​subclass,
-#> #   ³​aetiology, ⁴​aetiology_long, ⁵​SignatureVersion, ⁶​IdentificationStudy,
-#> #   ⁷​IdentificationStudyURL, ⁸​ExperimentalValidationStudy
+#> #   source.page <chr>
 ```
