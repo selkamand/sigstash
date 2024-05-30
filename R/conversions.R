@@ -234,7 +234,7 @@ sig_collection_to_sigminer <- function(signatures) {
   df_wide <- do.call("cbind", ls)
 
   # Capitalise kb to Kb in copynumber channel names
-  first_sig_channel_order <- sub(x = first_sig_channel_order,"([0-9])kb", "\\1Kb")
+  first_sig_channel_order <- sub(x = first_sig_channel_order, "([0-9])kb", "\\1Kb")
 
   rownames(df_wide) <- first_sig_channel_order
 
