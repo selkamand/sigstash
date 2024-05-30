@@ -49,6 +49,7 @@ sig_cosmic_to_sigstash <- function(data, sigclass = c("SBS", "ID", "CN", "DBS"))
   })
 
   df_signatures <- do.call("rbind", ls_signatures)
+
   return(df_signatures)
   # names(ls_signatures) <- signames
 
@@ -232,7 +233,11 @@ sig_collection_to_sigminer <- function(signatures) {
   })
   df_wide <- do.call("cbind", ls)
 
+  # Capitalise kb to Kb in copynumber channel names
+  first_sig_channel_order <- sub(x = first_sig_channel_order,"([0-9])kb", "\\1Kb")
 
   rownames(df_wide) <- first_sig_channel_order
+
+
   return(df_wide)
 }
