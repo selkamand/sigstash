@@ -189,7 +189,7 @@ cosmic_id_channel_to_type <- function() {
   )
 }
 
-cosmic_sv_channel_to_type <- function(){
+cosmic_sv_channel_to_type <- function() {
   c(
     "clustered_del_1-10Kb" = "clustered",
     "clustered_del_10-100Kb" = "clustered",
@@ -226,7 +226,7 @@ cosmic_sv_channel_to_type <- function(){
   )
 }
 
-cosmic_rna_sbs_channel_to_type <- function(){
+cosmic_rna_sbs_channel_to_type <- function() {
   c(
     `A[A>C]A` = "A>C", `A[A>C]C` = "A>C", `A[A>C]G` = "A>C", `A[A>C]T` = "A>C",
     `A[A>G]A` = "A>G", `A[A>G]C` = "A>G", `A[A>G]G` = "A>G", `A[A>G]T` = "A>G",
