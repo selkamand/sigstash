@@ -1,15 +1,16 @@
 path_inst <- system.file(package = "sigstash")
 
-vec_file_sigclass <- c(
-  "COSMIC_v2_SBS_GRCh37.txt" = "SBS",
-  "COSMIC_v2_SBS_GRCh38.txt" = "SBS",
-  "COSMIC_v3.3.1_SBS_GRCh37.txt" = "SBS",
-  "COSMIC_v3.3.1_SBS_GRCh38.txt" = "SBS",
-  "COSMIC_v3.3_CN_GRCh37.txt" = "CN",
-  "COSMIC_v3.3_DBS_GRCh37.txt" = "DBS",
-  "COSMIC_v3.3_DBS_GRCh38.txt" = "DBS",
-  "COSMIC_v3.3_ID_GRCh37.txt" = "ID"
-)
+# vec_file_sigclass <- c(
+#   "COSMIC_v3.4_CN_GRCh37.txt" = "CN",
+#   "COSMIC_v3.4_DBS_GRCh37.txt" = "DBS",
+#   "COSMIC_v3.4_DBS_GRCh38.txt" = "DBS",
+#   "COSMIC_v3.4_SBS_GRCh37.txt" = "SBS",
+#   "COSMIC_v3.4_SBS_GRCh38.txt" = "SBS",
+#   "COSMIC_v3.4_ID_GRCh37.txt" = "ID",
+#   "COSMIC_v3.4_SV_GRCh38.txt" = "SV",
+#   "COSMIC_v3.4_RNA-SBS_GRCh37.txt" = "RNA-SBS"
+# )
+
 
 for (i in seq_along(vec_file_sigclass)) {
   orig_file <- names(vec_file_sigclass)[i]

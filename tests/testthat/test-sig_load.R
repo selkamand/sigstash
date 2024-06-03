@@ -23,7 +23,6 @@ test_that("sig_load works", {
 
 test_that("sig_load_annotations works", {
   requireNamespace("sigshared", quietly = TRUE)
-
   df_available <- sig_available()
   datasets <- df_available[["dataset"]]
 
