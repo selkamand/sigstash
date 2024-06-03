@@ -1,7 +1,7 @@
 dataset,type,description,path_signature,annotations
 COSMIC_v3.4_SBS_GRCh38,signature,Cancer-Related Single Base Substitution Signatures (GRCh38). 96 channels represent trinucleotide contexts,reference_signatures/COSMIC_v3.4_SBS_GRCh38.csv,COSMIC_v3.4_SBS_annotations
 COSMIC_v3.4_DBS_GRCh38,signature,Cancer-Related Doublet Base Substitution Signatures (GRCh38).  78 channels represent doublet substitutions such as AA>NN or CC>NN,reference_signatures/COSMIC_v3.4_DBS_GRCh38.csv,COSMIC_v3.4_DBS_annotations
-COSMIC_v3.4_SV_GRCh38,signature,Cancer-Related Single Base Structural Variant (GRCh38).  32 channels represent different types and sizes of SVs.,reference_signatures/COSMIC_v3.4_SV_GRCh38.csv,COSMIC_v3.4_SV_annotations
+COSMIC_v3.4_SV_GRCh38,signature,Cancer-Related Structural Variant  Signatures (GRCh38).  32 channels represent different types and sizes of SVs.,reference_signatures/COSMIC_v3.4_SV_GRCh38.csv,COSMIC_v3.4_SV_annotations
 COSMIC_v3.4_CN_GRCh37,signature,"Cancer-Related CopyNumber Signatures (GRCh38). 48 channels represent different loss-of-heterozygosity status, total copy number state, and segment length",reference_signatures/COSMIC_v3.4_CN_GRCh37.csv,COSMIC_v3.4_CN_annotations
 COSMIC_v3.4_DBS_GRCh37,signature,Cancer-Related Doublet Base Substitution Signatures (GRCh37).  78 channels represent doublet substitutions such as AA>NN or CC>NN,reference_signatures/COSMIC_v3.4_DBS_GRCh37.csv,COSMIC_v3.4_DBS_annotations
 COSMIC_v3.4_ID_GRCh37,signature,"Cancer-Related Indel Signatures (GRCh37). 83 channels represent different indel sizes, nucleotides affected and presence on repetitive and/or microhomology regions",reference_signatures/COSMIC_v3.4_ID_GRCh37.csv,COSMIC_v3.4_ID_annotations
