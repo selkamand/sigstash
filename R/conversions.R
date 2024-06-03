@@ -21,7 +21,7 @@
 # # Write output
 # outfile = paste0(tools::file_path_sans_ext(basename(orig_file)), '.csv')
 # utils::write.csv(df_sigs, file = paste0("inst/reference_signatures/", outfile), row.names = FALSE, quote = TRUE)
-sig_cosmic_to_sigstash <- function(data, sigclass = c("SBS", "ID", "CN", "DBS")) {
+sig_cosmic_to_sigstash <- function(data, sigclass = c("SBS", "ID", "CN", "DBS", "SV", "RNA-SBS")) {
   requireNamespace("rlang", quietly = TRUE)
 
   sigclass <- rlang::arg_match(sigclass)
@@ -56,7 +56,7 @@ sig_cosmic_to_sigstash <- function(data, sigclass = c("SBS", "ID", "CN", "DBS"))
   # return(ls_signatures)
 }
 
-channel2type <- function(channel, sigclass = c("SBS", "ID", "CN", "DBS")) {
+channel2type <- function(channel, sigclass = c("SBS", "ID", "CN", "DBS", "SV", "RNA-SBS")) {
   requireNamespace("rlang", quietly = TRUE)
   sigclass <- rlang::arg_match(sigclass)
 
@@ -68,6 +68,10 @@ channel2type <- function(channel, sigclass = c("SBS", "ID", "CN", "DBS")) {
     vec_channel2type <- cosmic_id_channel_to_type()
   } else if (sigclass == "DBS") {
     vec_channel2type <- cosmic_dbs_channel_to_type()
+  } else if (sigclass == "SV") {
+    vec_channel2type <- cosmic_sv_channel_to_type()
+  } else if (sigclass == "RNA-SBS") {
+    vec_channel2type <- cosmic_rna_sbs_channel_to_type()
   } else {
     stop("unexpected sigclass")
   }
@@ -185,8 +189,95 @@ cosmic_id_channel_to_type <- function() {
   )
 }
 
+cosmic_sv_channel_to_type <- function() {
+  c(
+    "clustered_del_1-10Kb" = "clustered",
+    "clustered_del_10-100Kb" = "clustered",
+    "clustered_del_100Kb-1Mb" = "clustered",
+    "clustered_del_1Mb-10Mb" = "clustered",
+    "clustered_del_>10Mb" = "clustered",
+    "clustered_tds_1-10Kb" = "clustered",
+    "clustered_tds_10-100Kb" = "clustered",
+    "clustered_tds_100Kb-1Mb" = "clustered",
+    "clustered_tds_1Mb-10Mb" = "clustered",
+    "clustered_tds_>10Mb" = "clustered",
+    "clustered_inv_1-10Kb" = "clustered",
+    "clustered_inv_10-100Kb" = "clustered",
+    "clustered_inv_100Kb-1Mb" = "clustered",
+    "clustered_inv_1Mb-10Mb" = "clustered",
+    "clustered_inv_>10Mb" = "clustered",
+    "clustered_trans" = "clustered",
+    "non-clustered_del_1-10Kb" = "non-clustered",
+    "non-clustered_del_10-100Kb" = "non-clustered",
+    "non-clustered_del_100Kb-1Mb" = "non-clustered",
+    "non-clustered_del_1Mb-10Mb" = "non-clustered",
+    "non-clustered_del_>10Mb" = "non-clustered",
+    "non-clustered_tds_1-10Kb" = "non-clustered",
+    "non-clustered_tds_10-100Kb" = "non-clustered",
+    "non-clustered_tds_100Kb-1Mb" = "non-clustered",
+    "non-clustered_tds_1Mb-10Mb" = "non-clustered",
+    "non-clustered_tds_>10Mb" = "non-clustered",
+    "non-clustered_inv_1-10Kb" = "non-clustered",
+    "non-clustered_inv_10-100Kb" = "non-clustered",
+    "non-clustered_inv_100Kb-1Mb" = "non-clustered",
+    "non-clustered_inv_1Mb-10Mb" = "non-clustered",
+    "non-clustered_inv_>10Mb" = "non-clustered",
+    "non-clustered_trans" = "non-clustered"
+  )
+}
 
-
+cosmic_rna_sbs_channel_to_type <- function() {
+  c(
+    `A[A>C]A` = "A>C", `A[A>C]C` = "A>C", `A[A>C]G` = "A>C", `A[A>C]T` = "A>C",
+    `A[A>G]A` = "A>G", `A[A>G]C` = "A>G", `A[A>G]G` = "A>G", `A[A>G]T` = "A>G",
+    `A[A>T]A` = "A>T", `A[A>T]C` = "A>T", `A[A>T]G` = "A>T", `A[A>T]T` = "A>T",
+    `A[C>A]A` = "C>A", `A[C>A]C` = "C>A", `A[C>A]G` = "C>A", `A[C>A]T` = "C>A",
+    `A[C>G]A` = "C>G", `A[C>G]C` = "C>G", `A[C>G]G` = "C>G", `A[C>G]T` = "C>G",
+    `A[C>T]A` = "C>T", `A[C>T]C` = "C>T", `A[C>T]G` = "C>T", `A[C>T]T` = "C>T",
+    `A[G>A]A` = "G>A", `A[G>A]C` = "G>A", `A[G>A]G` = "G>A", `A[G>A]T` = "G>A",
+    `A[G>C]A` = "G>C", `A[G>C]C` = "G>C", `A[G>C]G` = "G>C", `A[G>C]T` = "G>C",
+    `A[G>T]A` = "G>T", `A[G>T]C` = "G>T", `A[G>T]G` = "G>T", `A[G>T]T` = "G>T",
+    `A[T>A]A` = "T>A", `A[T>A]C` = "T>A", `A[T>A]G` = "T>A", `A[T>A]T` = "T>A",
+    `A[T>C]A` = "T>C", `A[T>C]C` = "T>C", `A[T>C]G` = "T>C", `A[T>C]T` = "T>C",
+    `A[T>G]A` = "T>G", `A[T>G]C` = "T>G", `A[T>G]G` = "T>G", `A[T>G]T` = "T>G",
+    `C[A>C]A` = "A>C", `C[A>C]C` = "A>C", `C[A>C]G` = "A>C", `C[A>C]T` = "A>C",
+    `C[A>G]A` = "A>G", `C[A>G]C` = "A>G", `C[A>G]G` = "A>G", `C[A>G]T` = "A>G",
+    `C[A>T]A` = "A>T", `C[A>T]C` = "A>T", `C[A>T]G` = "A>T", `C[A>T]T` = "A>T",
+    `C[C>A]A` = "C>A", `C[C>A]C` = "C>A", `C[C>A]G` = "C>A", `C[C>A]T` = "C>A",
+    `C[C>G]A` = "C>G", `C[C>G]C` = "C>G", `C[C>G]G` = "C>G", `C[C>G]T` = "C>G",
+    `C[C>T]A` = "C>T", `C[C>T]C` = "C>T", `C[C>T]G` = "C>T", `C[C>T]T` = "C>T",
+    `C[G>A]A` = "G>A", `C[G>A]C` = "G>A", `C[G>A]G` = "G>A", `C[G>A]T` = "G>A",
+    `C[G>C]A` = "G>C", `C[G>C]C` = "G>C", `C[G>C]G` = "G>C", `C[G>C]T` = "G>C",
+    `C[G>T]A` = "G>T", `C[G>T]C` = "G>T", `C[G>T]G` = "G>T", `C[G>T]T` = "G>T",
+    `C[T>A]A` = "T>A", `C[T>A]C` = "T>A", `C[T>A]G` = "T>A", `C[T>A]T` = "T>A",
+    `C[T>C]A` = "T>C", `C[T>C]C` = "T>C", `C[T>C]G` = "T>C", `C[T>C]T` = "T>C",
+    `C[T>G]A` = "T>G", `C[T>G]C` = "T>G", `C[T>G]G` = "T>G", `C[T>G]T` = "T>G",
+    `G[A>C]A` = "A>C", `G[A>C]C` = "A>C", `G[A>C]G` = "A>C", `G[A>C]T` = "A>C",
+    `G[A>G]A` = "A>G", `G[A>G]C` = "A>G", `G[A>G]G` = "A>G", `G[A>G]T` = "A>G",
+    `G[A>T]A` = "A>T", `G[A>T]C` = "A>T", `G[A>T]G` = "A>T", `G[A>T]T` = "A>T",
+    `G[C>A]A` = "C>A", `G[C>A]C` = "C>A", `G[C>A]G` = "C>A", `G[C>A]T` = "C>A",
+    `G[C>G]A` = "C>G", `G[C>G]C` = "C>G", `G[C>G]G` = "C>G", `G[C>G]T` = "C>G",
+    `G[C>T]A` = "C>T", `G[C>T]C` = "C>T", `G[C>T]G` = "C>T", `G[C>T]T` = "C>T",
+    `G[G>A]A` = "G>A", `G[G>A]C` = "G>A", `G[G>A]G` = "G>A", `G[G>A]T` = "G>A",
+    `G[G>C]A` = "G>C", `G[G>C]C` = "G>C", `G[G>C]G` = "G>C", `G[G>C]T` = "G>C",
+    `G[G>T]A` = "G>T", `G[G>T]C` = "G>T", `G[G>T]G` = "G>T", `G[G>T]T` = "G>T",
+    `G[T>A]A` = "T>A", `G[T>A]C` = "T>A", `G[T>A]G` = "T>A", `G[T>A]T` = "T>A",
+    `G[T>C]A` = "T>C", `G[T>C]C` = "T>C", `G[T>C]G` = "T>C", `G[T>C]T` = "T>C",
+    `G[T>G]A` = "T>G", `G[T>G]C` = "T>G", `G[T>G]G` = "T>G", `G[T>G]T` = "T>G",
+    `T[A>C]A` = "A>C", `T[A>C]C` = "A>C", `T[A>C]G` = "A>C", `T[A>C]T` = "A>C",
+    `T[A>G]A` = "A>G", `T[A>G]C` = "A>G", `T[A>G]G` = "A>G", `T[A>G]T` = "A>G",
+    `T[A>T]A` = "A>T", `T[A>T]C` = "A>T", `T[A>T]G` = "A>T", `T[A>T]T` = "A>T",
+    `T[C>A]A` = "C>A", `T[C>A]C` = "C>A", `T[C>A]G` = "C>A", `T[C>A]T` = "C>A",
+    `T[C>G]A` = "C>G", `T[C>G]C` = "C>G", `T[C>G]G` = "C>G", `T[C>G]T` = "C>G",
+    `T[C>T]A` = "C>T", `T[C>T]C` = "C>T", `T[C>T]G` = "C>T", `T[C>T]T` = "C>T",
+    `T[G>A]A` = "G>A", `T[G>A]C` = "G>A", `T[G>A]G` = "G>A", `T[G>A]T` = "G>A",
+    `T[G>C]A` = "G>C", `T[G>C]C` = "G>C", `T[G>C]G` = "G>C", `T[G>C]T` = "G>C",
+    `T[G>T]A` = "G>T", `T[G>T]C` = "G>T", `T[G>T]G` = "G>T", `T[G>T]T` = "G>T",
+    `T[T>A]A` = "T>A", `T[T>A]C` = "T>A", `T[T>A]G` = "T>A", `T[T>A]T` = "T>A",
+    `T[T>C]A` = "T>C", `T[T>C]C` = "T>C", `T[T>C]G` = "T>C", `T[T>C]T` = "T>C",
+    `T[T>G]A` = "T>G", `T[T>G]C` = "T>G", `T[T>G]G` = "T>G", `T[T>G]T` = "T>G"
+  )
+}
 # Export Data -------------------------------------------------------------
 #' Sigstash Collection -> Sigminer
 #'
