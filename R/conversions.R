@@ -56,26 +56,61 @@ sig_cosmic_to_sigstash <- function(data, sigclass = c("SBS", "ID", "CN", "DBS", 
   # return(ls_signatures)
 }
 
+#' Channel to Type
+#'
+#' Converts COSMIC-style channel names (e.g., "A[C>A]A") into higher-level mutation types (e.g., "C>A").
+#'
+#' @param channel A character vector of COSMIC-style feature channels (e.g., "A[C>A]A").
+#' @param sigclass A string indicating the class of signatures these feature sets belong to. Possible values are "SBS", "ID", "CN", "DBS", "SV", or "RNA-SBS".
+#'
+#' @return A character vector of the same length as `channel`, describing the higher-level mutation types.
+#' @export
+#'
+#' @examples
+#' doublet_channels <- c(
+#'   `AC>CA` = "AC>NN", `AC>CG` = "AC>NN", `AC>CT` = "AC>NN", `AC>GA` = "AC>NN",
+#'   `AC>GG` = "AC>NN", `AC>GT` = "AC>NN", `AC>TA` = "AC>NN", `AC>TG` = "AC>NN",
+#'   `AC>TT` = "AC>NN", `AT>CA` = "AT>NN", `AT>CC` = "AT>NN", `AT>CG` = "AT>NN",
+#'   `AT>GA` = "AT>NN", `AT>GC` = "AT>NN", `AT>TA` = "AT>NN", `CC>AA` = "CC>NN",
+#'   `CC>AG` = "CC>NN", `CC>AT` = "CC>NN", `CC>GA` = "CC>NN", `CC>GG` = "CC>NN",
+#'   `CC>GT` = "CC>NN", `CC>TA` = "CC>NN", `CC>TG` = "CC>NN", `CC>TT` = "CC>NN",
+#'   `CG>AT` = "CG>NN", `CG>GC` = "CG>NN", `CG>GT` = "CG>NN", `CG>TA` = "CG>NN",
+#'   `CG>TC` = "CG>NN", `CG>TT` = "CG>NN", `CT>AA` = "CT>NN", `CT>AC` = "CT>NN",
+#'   `CT>AG` = "CT>NN", `CT>GA` = "CT>NN", `CT>GC` = "CT>NN", `CT>GG` = "CT>NN",
+#'   `CT>TA` = "CT>NN", `CT>TC` = "CT>NN", `CT>TG` = "CT>NN", `GC>AA` = "GC>NN",
+#'   `GC>AG` = "GC>NN", `GC>AT` = "GC>NN", `GC>CA` = "GC>NN", `GC>CG` = "GC>NN",
+#'   `GC>TA` = "GC>NN", `TA>AT` = "TA>NN", `TA>CG` = "TA>NN", `TA>CT` = "TA>NN",
+#'   `TA>GC` = "TA>NN", `TA>GG` = "TA>NN", `TA>GT` = "TA>NN", `TC>AA` = "TC>NN",
+#'   `TC>AG` = "TC>NN", `TC>AT` = "TC>NN", `TC>CA` = "TC>NN", `TC>CG` = "TC>NN",
+#'   `TC>CT` = "TC>NN", `TC>GA` = "TC>NN", `TC>GG` = "TC>NN", `TC>GT` = "TC>NN",
+#'   `TG>AA` = "TG>NN", `TG>AC` = "TG>NN", `TG>AT` = "TG>NN", `TG>CA` = "TG>NN",
+#'   `TG>CC` = "TG>NN", `TG>CT` = "TG>NN", `TG>GA` = "TG>NN", `TG>GC` = "TG>NN",
+#'   `TG>GT` = "TG>NN", `TT>AA` = "TT>NN", `TT>AC` = "TT>NN", `TT>AG` = "TT>NN",
+#'   `TT>CA` = "TT>NN", `TT>CC` = "TT>NN", `TT>CG` = "TT>NN", `TT>GA` = "TT>NN",
+#'   `TT>GC` = "TT>NN", `TT>GG` = "TT>NN"
+#' )
+#'
+#' # Get higher-level doublet channel types
+#' channel2type(doublet_channels, sigclass = "DBS")
 channel2type <- function(channel, sigclass = c("SBS", "ID", "CN", "DBS", "SV", "RNA-SBS")) {
+  # Ensure the required namespace is available
   requireNamespace("rlang", quietly = TRUE)
+  # Match the sigclass argument to one of the valid options
   sigclass <- rlang::arg_match(sigclass)
+  # Ensure channel is a character vector
+  assertions::assert_character_vector(channel)
 
-  if (sigclass == "SBS") {
-    vec_channel2type <- cosmic_sbs_channel_to_type()
-  } else if (sigclass == "CN") {
-    vec_channel2type <- cosmic_cn_channel_to_type()
-  } else if (sigclass == "ID") {
-    vec_channel2type <- cosmic_id_channel_to_type()
-  } else if (sigclass == "DBS") {
-    vec_channel2type <- cosmic_dbs_channel_to_type()
-  } else if (sigclass == "SV") {
-    vec_channel2type <- cosmic_sv_channel_to_type()
-  } else if (sigclass == "RNA-SBS") {
-    vec_channel2type <- cosmic_rna_sbs_channel_to_type()
-  } else {
-    stop("unexpected sigclass")
-  }
+  # Retrieve the appropriate function for the given sigclass
+  vec_channel2type <- switch(sigclass,
+                             "SBS" = cosmic_sbs_channel_to_type(),
+                             "ID" = cosmic_id_channel_to_type(),
+                             "CN" = cosmic_cn_channel_to_type(),
+                             "DBS" = cosmic_dbs_channel_to_type(),
+                             "SV" = cosmic_sv_channel_to_type(),
+                             "RNA-SBS" = cosmic_rna_sbs_channel_to_type(),
+                             stop("unexpected sigclass"))
 
+  # Map channels to their higher-level types using the retrieved function
   types <- vec_channel2type[match(channel, names(vec_channel2type))]
   return(types)
 }
