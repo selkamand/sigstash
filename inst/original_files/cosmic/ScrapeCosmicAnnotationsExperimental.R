@@ -22,26 +22,24 @@ fetch_as_text <- function(html, x, remove_whitespace = TRUE, remove_trailing_per
 }
 
 
-fetch_annotations <- function(html, return_df = FALSE){
+fetch_rna_annotations <- function(html, return_df = FALSE){
   anno <- list(
-    signature_name = fetch_as_text(html, "h2")
-    profile_id = fetch_as_text(html, "#1\")")
-    #aetiology_long = fetch_s_text(html, '#proposed-aetiology p:nth-child(2)'),
-    #aetiology = fetch_as_text(html, 'tbody:nth-child(5) td:nth-child(1)'),
-    #aetiology_support = fetch_as_text(html, 'tbody:nth-child(5) td:nth-child(2)'),
-    #comment = fetch_as_text(html, '#proposed-aetiology p:nth-child(4)') ,
-    #source_page = source_page,
-    #signature_version = fetch_as_text(html, '.mspage-head'),
-    #signature_long = fetch_as_text(html, '.mspage-subhead'),
-    #tissue_distribution = fetch_as_text(html, "#tissue-distribution p"),
-    #identification_study = fetch_as_text(html, "#checklist a"),
-    #first_included_in_cosmic = fetch_as_text(html, "tbody:nth-child(2) td:nth-child(2)"),
-    #identification_ngs_technique = fetch_as_text(html, "tbody:nth-child(3) td:nth-child(1)"),
-    #replicated_in_additional_studies = fetch_as_text(html, "tbody:nth-child(4) td:nth-child(2)"),
-    #experimental_study = fetch_as_text(html, "tbody:nth-child(6) td:nth-child(1)"),
-    #experimental_study_species = fetch_as_text(html, "tbody:nth-child(6) td:nth-child(2)")
+    aetiology_long = fetch_as_text(html, '#proposed-aetiology p:nth-child(2)'),
+    aetiology = fetch_as_text(html, 'tbody:nth-child(5) td:nth-child(1)'),
+    aetiology_support = fetch_as_text(html, 'tbody:nth-child(5) td:nth-child(2)'),
+    comment = fetch_as_text(html, '#proposed-aetiology p:nth-child(4)') ,
+    source_page = source_page,
+    signature_version = fetch_as_text(html, '.mspage-head'),
+    signature_long = fetch_as_text(html, '.mspage-subhead'),
+    tissue_distribution = fetch_as_text(html, "#tissue-distribution p"),
+    identification_study = fetch_as_text(html, "#checklist a"),
+    first_included_in_cosmic = fetch_as_text(html, "tbody:nth-child(2) td:nth-child(2)"),
+    identification_ngs_technique = fetch_as_text(html, "tbody:nth-child(3) td:nth-child(1)"),
+    replicated_in_additional_studies = fetch_as_text(html, "tbody:nth-child(4) td:nth-child(2)"),
+    experimental_study = fetch_as_text(html, "tbody:nth-child(6) td:nth-child(1)"),
+    experimental_study_species = fetch_as_text(html, "tbody:nth-child(6) td:nth-child(2)")
   )
-  #anno$signature = anno$signature_long |> sub(x=_, " .*", "") |> sub(x=_, "-", ".")
+  anno$signature = anno$signature_long |> sub(x=_, " .*", "") |> sub(x=_, "-", ".")
 
   if(return_df) {
     anno <- as.data.frame(anno)
@@ -50,14 +48,9 @@ fetch_annotations <- function(html, return_df = FALSE){
   return(anno)
 }
 
-fetch_annotations(pagetest)
-
-
 surround_by_slash <- function(x) { paste0("/", x, "/") }
 
-html <- rvest::read_html(x = "~/Downloads/COSMIC _ Experimental Signatures.html") # Have to manually download since the new website makes things harder to scrape
-
-source_page <- "https://cancer.sanger.ac.uk/signatures/experimental/"
+source_page <- "https://cancer.sanger.ac.uk/signatures/rna-sbs/"
 #source_page <- "https://cancer.sanger.ac.uk/signatures/sbs/"
 #source_page <- "https://cancer.sanger.ac.uk/signatures/dbs/"
 # source_page <- "https://cancer.sanger.ac.uk/signatures/id/"
@@ -70,25 +63,16 @@ link_suffix <- strsplit(source_page, split = "/", ) |>
   paste0(collapse = "/") |>
   surround_by_slash()
 
-#html <- rvest::read_html_live(source_page)
+html <- rvest::read_html(source_page)
 
-html |>
-  rvest::html_elements(".title p:nth-child(1)") |>
-  rvest::html_text()
-
-url_sig_pages <- html |>
+rel_links_to_sig_pages <- html |>
   rvest::html_elements("a") |>
   rvest::html_attr("href") |>
-  Filter(x = _, \(link){
-    grepl(x=link, link_suffix, fixed = TRUE) &
-      !grepl(x=link, "\\/experimental\\/$", fixed = FALSE)
-    })
+  Filter(x = _, \(link){grepl(x=link, link_suffix, fixed = TRUE)})
 
+urls_sig_pages <- paste0("https://cancer.sanger.ac.uk", rel_links_to_sig_pages)
+urls_sig_pages
 
-url_sig_pages
-
-pagetest <- rvest::read_html(url_sig_pages[[1]])
-fetch_annotations(pagetest)
 
 #test_html <- rvest::read_html("https://cancer.sanger.ac.uk/signatures/rna-sbs/rna-sbs1/")
 

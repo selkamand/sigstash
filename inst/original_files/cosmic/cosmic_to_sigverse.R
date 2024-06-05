@@ -1,3 +1,4 @@
+devtools::load_all()
 path_inst <- system.file(package = "sigstash")
 
 # vec_file_sigclass <- c(
@@ -12,6 +13,18 @@ path_inst <- system.file(package = "sigstash")
 # )
 
 
+vec_file_sigclass <- c(
+  "c-elegans_sbs96_unfiltered_v1_0.txt" = "SBS",
+  "chicken_sbs96_unfiltered_v1_0.txt" = "SBS",
+  "human_sbs96_filtered_v1_0.txt" = "SBS",
+  "human_sbs96_unfiltered_v1_0.txt" = "SBS",
+  "mouse_sbs96_filtered_v1_0.txt" = "SBS",
+  "mouse_sbs96_unfiltered_v1_0.txt" = "SBS",
+  "rat_sbs96_unfiltered_v1_0.txt" = "SBS"
+)
+
+
+
 for (i in seq_along(vec_file_sigclass)) {
   orig_file <- names(vec_file_sigclass)[i]
   sigclass <- vec_file_sigclass[i]
@@ -19,6 +32,7 @@ for (i in seq_along(vec_file_sigclass)) {
   path <- system.file("original_files/cosmic", orig_file, package = "sigstash")
   data <- utils::read.csv(path, header = TRUE, sep = "\t")
 
+  colnames(data) <- ifelse(colnames(data) == "MutationType", "Type", colnames(data))
   # Convert to sigstash-style
   df_sigs <- sig_cosmic_to_sigstash(data, sigclass = sigclass)
 

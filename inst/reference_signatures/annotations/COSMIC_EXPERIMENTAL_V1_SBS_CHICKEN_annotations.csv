@@ -1,0 +1,10 @@
+signature,aetiology,class,subclass
+cisplatin_36ad62a111fd,cisplatin,?,?
+cyclophosphamide_52dbaf7d9a27,cyclophosphamide,?,?
+doxorubicin_cd802a9d7c6c,doxorubicin,?,?
+etoposide_be678b797554,etoposide,?,?
+gemcitabine_5e70668d2006,gemcitabine,?,?
+hydroxyurea_22972f230584,hydroxyurea,?,?
+no_treatment_e06c9c4a839e,no,?,?
+paclitaxel_fca670aa0573,paclitaxel,?,?
+X5_fluorouracil_ffda548e8516,X5,?,?
