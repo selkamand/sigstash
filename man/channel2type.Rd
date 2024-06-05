@@ -7,7 +7,7 @@
 channel2type(channel, sigclass = c("SBS", "ID", "CN", "DBS", "SV", "RNA-SBS"))
 }
 \arguments{
-\item{channel}{A character vector of COSMIC-style feature channels (e.g., "A\link{C>A}A").}
+\item{channel}{A character vector of COSMIC-style feature channels (e.g., "A[C>A]A").}
 
 \item{sigclass}{A string indicating the class of signatures these feature sets belong to. Possible values are "SBS", "ID", "CN", "DBS", "SV", or "RNA-SBS".}
 }
@@ -15,7 +15,7 @@ channel2type(channel, sigclass = c("SBS", "ID", "CN", "DBS", "SV", "RNA-SBS"))
 A character vector of the same length as \code{channel}, describing the higher-level mutation types.
 }
 \description{
-Converts COSMIC-style channel names (e.g., "A\link{C>A}A") into higher-level mutation types (e.g., "C>A").
+Converts COSMIC-style channel names (e.g., "A[C>A]A") into higher-level mutation types (e.g., "C>A").
 }
 \examples{
 doublet_channels <- c(

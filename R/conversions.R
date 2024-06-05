@@ -58,9 +58,9 @@ sig_cosmic_to_sigstash <- function(data, sigclass = c("SBS", "ID", "CN", "DBS", 
 
 #' Channel to Type
 #'
-#' Converts COSMIC-style channel names (e.g., "A[C>A]A") into higher-level mutation types (e.g., "C>A").
+#' Converts COSMIC-style channel names (e.g., "A\[C>A\]A") into higher-level mutation types (e.g., "C>A").
 #'
-#' @param channel A character vector of COSMIC-style feature channels (e.g., "A[C>A]A").
+#' @param channel A character vector of COSMIC-style feature channels (e.g., "A\[C>A\]A").
 #' @param sigclass A string indicating the class of signatures these feature sets belong to. Possible values are "SBS", "ID", "CN", "DBS", "SV", or "RNA-SBS".
 #'
 #' @return A character vector of the same length as `channel`, describing the higher-level mutation types.
