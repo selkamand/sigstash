@@ -102,13 +102,14 @@ channel2type <- function(channel, sigclass = c("SBS", "ID", "CN", "DBS", "SV", "
 
   # Retrieve the appropriate function for the given sigclass
   vec_channel2type <- switch(sigclass,
-                             "SBS" = cosmic_sbs_channel_to_type(),
-                             "ID" = cosmic_id_channel_to_type(),
-                             "CN" = cosmic_cn_channel_to_type(),
-                             "DBS" = cosmic_dbs_channel_to_type(),
-                             "SV" = cosmic_sv_channel_to_type(),
-                             "RNA-SBS" = cosmic_rna_sbs_channel_to_type(),
-                             stop("unexpected sigclass"))
+    "SBS" = cosmic_sbs_channel_to_type(),
+    "ID" = cosmic_id_channel_to_type(),
+    "CN" = cosmic_cn_channel_to_type(),
+    "DBS" = cosmic_dbs_channel_to_type(),
+    "SV" = cosmic_sv_channel_to_type(),
+    "RNA-SBS" = cosmic_rna_sbs_channel_to_type(),
+    stop("unexpected sigclass")
+  )
 
   # Map channels to their higher-level types using the retrieved function
   types <- vec_channel2type[match(channel, names(vec_channel2type))]
