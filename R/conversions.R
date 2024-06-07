@@ -28,7 +28,7 @@ sig_cosmic_to_sigstash <- function(data, sigclass = c("SBS", "ID", "CN", "DBS", 
 
   signames <- colnames(data)[-1]
   channels <- data[[1]]
-  types <- channel2type(channels, sigclass)
+  types <- sig_convert_channel2type(channels, sigclass)
 
   # For each signature ...
   ls_signatures <- lapply(X = signames, FUN = \(sig){
@@ -91,8 +91,9 @@ sig_cosmic_to_sigstash <- function(data, sigclass = c("SBS", "ID", "CN", "DBS", 
 #' )
 #'
 #' # Get higher-level doublet channel types
-#' channel2type(doublet_channels, sigclass = "DBS")
-channel2type <- function(channel, sigclass = c("SBS", "ID", "CN", "DBS", "SV", "RNA-SBS")) {
+#' sig_convert_channel2type(doublet_channels, sigclass = "DBS")
+#'
+sig_convert_channel2type <- function(channel, sigclass = c("SBS", "ID", "CN", "DBS", "SV", "RNA-SBS")) {
   # Ensure the required namespace is available
   requireNamespace("rlang", quietly = TRUE)
   # Match the sigclass argument to one of the valid options
@@ -360,11 +361,53 @@ sig_collection_to_sigminer <- function(signatures) {
   })
   df_wide <- do.call("cbind", ls)
 
-  # Capitalise kb to Kb in copynumber channel names
-  first_sig_channel_order <- sub(x = first_sig_channel_order, "([0-9])kb", "\\1Kb")
+  # Convert Sigstash (cosmic-style) Channel Names to Sigminer
+  first_sig_channel_order <- sig_convert_channel_name(first_sig_channel_order, from = "cosmic", to = "sigminer")
 
   rownames(df_wide) <- first_sig_channel_order
 
 
   return(df_wide)
+}
+
+
+
+# Channel Name Conversions ------------------------------------------------
+#' Convert Channel Names Between 'cosmic' and 'sigminer' Formats
+#'
+#' This function converts channel names between 'cosmic' and 'sigminer' formats. It modifies the capitalization of 'Kb' and replaces certain characters in the channel names as per the required format.
+#'
+#' @param channel A character vector of channel names to be converted.
+#' @param from A character string indicating the format to convert from. Should be either "cosmic" or "sigminer". Defaults to "cosmic".
+#' @param to A character string indicating the format to convert to. Should be either "sigminer" or "cosmic". Defaults to "sigminer".
+#'
+#' @return A character vector with the converted channel names.
+#' @export
+#'
+#' @examples
+#' # Convert from 'cosmic' to 'sigminer'
+#' sig_convert_channel_name("clustered_del_1-10Kb", from = "cosmic", to = "sigminer")
+#'
+#' # Convert from 'sigminer' to 'cosmic'
+#' sig_convert_channel_name("clustered:del:1-10Kb", from = "sigminer", to = "cosmic")
+#'
+sig_convert_channel_name <- function(channel, from = c("cosmic", "sigminer"), to = c("sigminer", "cosmic")) {
+  from <- rlang::arg_match(from)
+  to <- rlang::arg_match(to)
+
+  if (from == "cosmic" & to == "sigminer") {
+    # Capitalise kb to Kb in copynumber channel names
+    channel <- sub(x = channel, "([0-9])kb", "\\1Kb")
+
+    # Convert _ to : in SV channel names
+    channel <- gsub(x = channel, "_", ":")
+  } else if (from == "sigminer" & to == "cosmic") {
+    # Un-capitalise Kb to kb in copynumber channel names
+    channel <- sub(x = channel, "([0-9])Kb", "\\1kb")
+
+    # Convert ':' to '_' in SV channel names
+    channel <- gsub(x = channel, ":", "_")
+  } else {
+    stop("Channel name conversion from ", from, " to ", to, " has not yet been implemented. Please create a new issue on the sigstash github page")
+  }
 }
