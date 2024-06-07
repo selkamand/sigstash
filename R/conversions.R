@@ -391,27 +391,23 @@ sig_collection_to_sigminer <- function(signatures) {
 #' # Convert from 'sigminer' to 'cosmic'
 #' sig_convert_channel_name("clustered:del:1-10Kb", from = "sigminer", to = "cosmic")
 #'
-sig_convert_channel_name <- function(channel, from = c("cosmic", "sigminer"), to = c("sigminer", "cosmic")){
+sig_convert_channel_name <- function(channel, from = c("cosmic", "sigminer"), to = c("sigminer", "cosmic")) {
   from <- rlang::arg_match(from)
   to <- rlang::arg_match(to)
 
-  if(from == "cosmic" & to == "sigminer"){
-
+  if (from == "cosmic" & to == "sigminer") {
     # Capitalise kb to Kb in copynumber channel names
     channel <- sub(x = channel, "([0-9])kb", "\\1Kb")
 
     # Convert _ to : in SV channel names
     channel <- gsub(x = channel, "_", ":")
-  }
-
-  else if(from == "sigminer" & to == "cosmic"){
+  } else if (from == "sigminer" & to == "cosmic") {
     # Un-capitalise Kb to kb in copynumber channel names
     channel <- sub(x = channel, "([0-9])Kb", "\\1kb")
 
     # Convert ':' to '_' in SV channel names
     channel <- gsub(x = channel, ":", "_")
-  }
-  else
+  } else {
     stop("Channel name conversion from ", from, " to ", to, " has not yet been implemented. Please create a new issue on the sigstash github page")
+  }
 }
-
