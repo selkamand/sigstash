@@ -1,5 +1,3 @@
-
-
 #' Signature Collection Set Operations
 #'
 #' Create custom signature collections using [sig_subset()] and [sig_merge()].
@@ -28,8 +26,7 @@
 #'
 #' # Merge our 2 collections together
 #' sig_merge(custom_signature_collection, custom_signature_collection2)
-sig_subset <- function(signatures, names){
-
+sig_subset <- function(signatures, names) {
   # Assertions
   sigshared::assert_signature_collection(signatures)
   assertions::assert_names_include(signatures, names)
@@ -48,8 +45,7 @@ sig_subset <- function(signatures, names){
 #'
 #' @inherit sig_subset examples description
 #'
-sig_merge <- function(...){
-
+sig_merge <- function(...) {
   # Combine all lists into one
   all_signatures <- list(...)
 
