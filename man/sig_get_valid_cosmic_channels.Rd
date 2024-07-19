@@ -18,6 +18,6 @@ A character vector of valid COSMIC channels or types for the specified signature
 Returns a character vector of all the expected channels or types for the specified signature class (sigclass).
 }
 \examples{
-sig_get_valid_cosmic_channels("SBS96") # Returns a character vector of all the expected SBS96 channels
-sig_get_valid_cosmic_types("SBS96") # Returns a character vector of all the expected SBS96 channel types
+sig_get_valid_cosmic_channels("SBS96")
+sig_get_valid_cosmic_types("SBS96")
 }

@@ -68,30 +68,30 @@ sig_cosmic_to_sigstash <- function(data, sigclass = c("SBS", "ID", "CN", "DBS", 
 #'
 #' @examples
 #' doublet_channels <- c(
-#'   `AC>CA` = "AC>NN", `AC>CG` = "AC>NN", `AC>CT` = "AC>NN", `AC>GA` = "AC>NN",
-#'   `AC>GG` = "AC>NN", `AC>GT` = "AC>NN", `AC>TA` = "AC>NN", `AC>TG` = "AC>NN",
-#'   `AC>TT` = "AC>NN", `AT>CA` = "AT>NN", `AT>CC` = "AT>NN", `AT>CG` = "AT>NN",
-#'   `AT>GA` = "AT>NN", `AT>GC` = "AT>NN", `AT>TA` = "AT>NN", `CC>AA` = "CC>NN",
-#'   `CC>AG` = "CC>NN", `CC>AT` = "CC>NN", `CC>GA` = "CC>NN", `CC>GG` = "CC>NN",
-#'   `CC>GT` = "CC>NN", `CC>TA` = "CC>NN", `CC>TG` = "CC>NN", `CC>TT` = "CC>NN",
-#'   `CG>AT` = "CG>NN", `CG>GC` = "CG>NN", `CG>GT` = "CG>NN", `CG>TA` = "CG>NN",
-#'   `CG>TC` = "CG>NN", `CG>TT` = "CG>NN", `CT>AA` = "CT>NN", `CT>AC` = "CT>NN",
-#'   `CT>AG` = "CT>NN", `CT>GA` = "CT>NN", `CT>GC` = "CT>NN", `CT>GG` = "CT>NN",
-#'   `CT>TA` = "CT>NN", `CT>TC` = "CT>NN", `CT>TG` = "CT>NN", `GC>AA` = "GC>NN",
-#'   `GC>AG` = "GC>NN", `GC>AT` = "GC>NN", `GC>CA` = "GC>NN", `GC>CG` = "GC>NN",
-#'   `GC>TA` = "GC>NN", `TA>AT` = "TA>NN", `TA>CG` = "TA>NN", `TA>CT` = "TA>NN",
-#'   `TA>GC` = "TA>NN", `TA>GG` = "TA>NN", `TA>GT` = "TA>NN", `TC>AA` = "TC>NN",
-#'   `TC>AG` = "TC>NN", `TC>AT` = "TC>NN", `TC>CA` = "TC>NN", `TC>CG` = "TC>NN",
-#'   `TC>CT` = "TC>NN", `TC>GA` = "TC>NN", `TC>GG` = "TC>NN", `TC>GT` = "TC>NN",
-#'   `TG>AA` = "TG>NN", `TG>AC` = "TG>NN", `TG>AT` = "TG>NN", `TG>CA` = "TG>NN",
-#'   `TG>CC` = "TG>NN", `TG>CT` = "TG>NN", `TG>GA` = "TG>NN", `TG>GC` = "TG>NN",
-#'   `TG>GT` = "TG>NN", `TT>AA` = "TT>NN", `TT>AC` = "TT>NN", `TT>AG` = "TT>NN",
-#'   `TT>CA` = "TT>NN", `TT>CC` = "TT>NN", `TT>CG` = "TT>NN", `TT>GA` = "TT>NN",
-#'   `TT>GC` = "TT>NN", `TT>GG` = "TT>NN"
+#'   "AC>CA", "AC>CG", "AC>CT", "AC>GA",
+#'   "AC>GG", "AC>GT", "AC>TA", "AC>TG",
+#'   "AC>TT", "AT>CA", "AT>CC", "AT>CG",
+#'   "AT>GA", "AT>GC", "AT>TA", "CC>AA",
+#'   "CC>AG", "CC>AT", "CC>GA", "CC>GG",
+#'   "CC>GT", "CC>TA", "CC>TG", "CC>TT",
+#'   "CG>AT", "CG>GC", "CG>GT", "CG>TA",
+#'   "CG>TC", "CG>TT", "CT>AA", "CT>AC",
+#'   "CT>AG", "CT>GA", "CT>GC", "CT>GG",
+#'   "CT>TA", "CT>TC", "CT>TG", "GC>AA",
+#'   "GC>AG", "GC>AT", "GC>CA", "GC>CG",
+#'   "GC>TA", "TA>AT", "TA>CG", "TA>CT",
+#'   "TA>GC", "TA>GG", "TA>GT", "TC>AA",
+#'   "TC>AG", "TC>AT", "TC>CA", "TC>CG",
+#'   "TC>CT", "TC>GA", "TC>GG", "TC>GT",
+#'   "TG>AA", "TG>AC", "TG>AT", "TG>CA",
+#'   "TG>CC", "TG>CT", "TG>GA", "TG>GC",
+#'   "TG>GT", "TT>AA", "TT>AC", "TT>AG",
+#'   "TT>CA", "TT>CC", "TT>CG", "TT>GA",
+#'   "TT>GC", "TT>GG"
 #' )
 #'
 #' # Get higher-level doublet channel types
-#' sig_convert_channel2type(doublet_channels, sigclass = "DBS")
+#' sig_convert_channel2type(doublet_channels, sigclass = "DBS78")
 #'
 sig_convert_channel2type <- function(channel, sigclass = c("SBS96", "SBS1536", "ID83", "CN48", "DBS78", "SV32", "RNA-SBS192")) {
   # Ensure the required namespace is available
@@ -131,8 +131,8 @@ sig_convert_channel2type <- function(channel, sigclass = c("SBS96", "SBS1536", "
 #' @export
 #'
 #' @examples
-#' sig_get_valid_cosmic_channels("SBS96") # Returns a character vector of all the expected SBS96 channels
-#' sig_get_valid_cosmic_types("SBS96") # Returns a character vector of all the expected SBS96 channel types
+#' sig_get_valid_cosmic_channels("SBS96")
+#' sig_get_valid_cosmic_types("SBS96")
 sig_get_valid_cosmic_channels <- function(sigclass = c("SBS96", "SBS1536", "ID83", "CN48", "DBS78", "SV32", "RNA-SBS192")){
   # Ensure the required namespace is available
   requireNamespace("rlang", quietly = TRUE)
@@ -142,6 +142,7 @@ sig_get_valid_cosmic_channels <- function(sigclass = c("SBS96", "SBS1536", "ID83
 }
 
 #' @inherit sig_get_valid_cosmic_channels
+#' @export
 sig_get_valid_cosmic_types <- function(sigclass = c("SBS96", "SBS1536", "ID83", "CN48", "DBS78", "SV32", "RNA-SBS192")){
   # Ensure the required namespace is available
   requireNamespace("rlang", quietly = TRUE)
