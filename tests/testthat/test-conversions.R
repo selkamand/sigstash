@@ -29,7 +29,7 @@ test_that("Channel to Type conversion works", {
   # Sigclass Chass
   expect_no_error(sig_valid_sigclass())
 
-  for (sigclass in sig_valid_sigclass()){
+  for (sigclass in sig_valid_sigclass()) {
     expect_no_error(sig_get_valid_cosmic_channels(sigclass))
     expect_no_error(sig_get_valid_cosmic_types(sigclass))
   }
