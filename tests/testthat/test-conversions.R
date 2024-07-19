@@ -25,4 +25,12 @@ test_that("Channel to Type conversion works", {
   expect_equal(unname(sig_convert_channel2type(sbs1536_channels, sigclass = "SBS1536")), sbs1536_type)
 
   expect_error(sig_convert_channel2type(sbs1536_channels, sigclass = "SBS96"))
+
+  # Sigclass Chass
+  expect_no_error(sig_valid_sigclass())
+
+  for (sigclass in sig_valid_sigclass()) {
+    expect_no_error(sig_get_valid_cosmic_channels(sigclass))
+    expect_no_error(sig_get_valid_cosmic_types(sigclass))
+  }
 })

@@ -74,7 +74,6 @@ sig_load <- function(dataset, format = c("sigstash", "tidy", "sigminer")) {
   }
 
   if (format == "sigminer") {
-    # TODO: implement
     ls_data <- split(df_data[-1], df_data[["signature"]])
     ls_data <- lapply(ls_data, tibble::tibble)
     df_data <- sig_collection_to_sigminer(ls_data)
