@@ -56,12 +56,25 @@ sig_cosmic_to_sigstash <- function(data, sigclass = c("SBS", "ID", "CN", "DBS", 
   # return(ls_signatures)
 }
 
+#' List Valid Signature Classes
+#'
+#' List sigverse supported signature feature-spaces.
+#'
+#' @return vector of sigverse supported signature catalogue feature-spaces.
+#' @export
+#'
+#' @examples
+#' sig_valid_sigclass()
+sig_valid_sigclass <- function(){
+  c("SBS96", "SBS1536", "ID83", "CN48", "CN80", "CN176", "DBS78", "SV32", "SV38", "RNA-SBS192")
+}
+
 #' Channel to Type
 #'
 #' Converts COSMIC-style channel names (e.g., "A\[C>A\]A") into higher-level mutation types (e.g., "C>A").
 #'
 #' @param channel A character vector of COSMIC-style feature channels (e.g., "A\[C>A\]A").
-#' @param sigclass A string indicating the class of signatures these feature sets belong to. Possible values are "SBS", "ID", "CN", "DBS", "SV", or "RNA-SBS".
+#' @param sigclass A string indicating the class of signatures these feature sets belong to. Run [sig_valid_sigclass()] to see all options.
 #'
 #' @return A character vector of the same length as `channel`, describing the higher-level mutation types.
 #' @export
@@ -93,11 +106,12 @@ sig_cosmic_to_sigstash <- function(data, sigclass = c("SBS", "ID", "CN", "DBS", 
 #' # Get higher-level doublet channel types
 #' sig_convert_channel2type(doublet_channels, sigclass = "DBS78")
 #'
-sig_convert_channel2type <- function(channel, sigclass = c("SBS96", "SBS1536", "ID83", "CN48", "CN80", "DBS78", "SV32", "RNA-SBS192")) {
-  # Ensure the required namespace is available
-  requireNamespace("rlang", quietly = TRUE)
-  # Match the sigclass argument to one of the valid options
-  sigclass <- rlang::arg_match(sigclass)
+sig_convert_channel2type <- function(channel, sigclass = "SBS96") {
+
+  # Assertions
+  assertions::assert_string(sigclass)
+  assertions::assert_subset(sigclass, sig_valid_sigclass())
+
   # Ensure channel is a character vector
   assertions::assert_character_vector(channel)
 
@@ -117,7 +131,7 @@ sig_convert_channel2type <- function(channel, sigclass = c("SBS96", "SBS1536", "
 #'
 #' Returns a character vector of all the expected channels or types for the specified signature class (sigclass).
 #'
-#' @param sigclass A string indicating the class of signatures. Possible values are "SBS96", "SBS1536", "ID83", "CN48", "DBS78", "SV32", or "RNA-SBS192".
+#' @param sigclass A string indicating the class of signatures. Run [sig_valid_sigclass()] to see all options.
 #'
 #' @return A character vector of valid COSMIC channels or types for the specified signature class.
 #' @export
@@ -126,21 +140,23 @@ sig_convert_channel2type <- function(channel, sigclass = c("SBS96", "SBS1536", "
 #' sig_get_valid_cosmic_channels("SBS96")
 #' sig_get_valid_cosmic_types("SBS96")
 
-sig_get_valid_cosmic_channels <- function(sigclass = c("SBS96", "SBS1536", "ID83", "CN48", "CN80", "DBS78", "SV32", "RNA-SBS192")){
-  # Ensure the required namespace is available
-  requireNamespace("rlang", quietly = TRUE)
-  # Match the sigclass argument to one of the valid options
-  sigclass <- rlang::arg_match(sigclass)
+sig_get_valid_cosmic_channels <- function(sigclass){
+
+  # Assertions
+  assertions::assert_string(sigclass)
+  assertions::assert_subset(sigclass, sig_valid_sigclass())
+
+  # Get Channels
   names(sig_get_channel_to_type_maps(sigclass))
 }
 
 #' @inherit sig_get_valid_cosmic_channels
 #' @export
-sig_get_valid_cosmic_types <- function(sigclass = c("SBS96", "SBS1536", "ID83", "CN48", "CN80", "DBS78", "SV32", "RNA-SBS192")){
-  # Ensure the required namespace is available
-  requireNamespace("rlang", quietly = TRUE)
-  # Match the sigclass argument to one of the valid options
-  sigclass <- rlang::arg_match(sigclass)
+sig_get_valid_cosmic_types <- function(sigclass){
+
+  # Assertions
+  assertions::assert_string(sigclass)
+  assertions::assert_subset(sigclass, sig_valid_sigclass())
 
   unname(sig_get_channel_to_type_maps(sigclass))
 }
@@ -158,6 +174,7 @@ sig_get_channel_to_type_maps <- function(sigclass) {
                              stop("unexpected sigclass"))
   return(vec_channel2type)
 }
+
 
 cosmic_sbs96_channel_to_type <- function() {
   c(

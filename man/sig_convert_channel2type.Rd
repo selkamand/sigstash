@@ -4,15 +4,12 @@
 \alias{sig_convert_channel2type}
 \title{Channel to Type}
 \usage{
-sig_convert_channel2type(
-  channel,
-  sigclass = c("SBS96", "SBS1536", "ID83", "CN48", "CN80", "DBS78", "SV32", "RNA-SBS192")
-)
+sig_convert_channel2type(channel, sigclass = "SBS96")
 }
 \arguments{
 \item{channel}{A character vector of COSMIC-style feature channels (e.g., "A[C>A]A").}
 
-\item{sigclass}{A string indicating the class of signatures these feature sets belong to. Possible values are "SBS", "ID", "CN", "DBS", "SV", or "RNA-SBS".}
+\item{sigclass}{A string indicating the class of signatures these feature sets belong to. Run \code{\link[=sig_valid_sigclass]{sig_valid_sigclass()}} to see all options.}
 }
 \value{
 A character vector of the same length as \code{channel}, describing the higher-level mutation types.

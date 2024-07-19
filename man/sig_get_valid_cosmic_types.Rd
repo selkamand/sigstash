@@ -4,12 +4,10 @@
 \alias{sig_get_valid_cosmic_types}
 \title{Get Valid COSMIC Channels and Types}
 \usage{
-sig_get_valid_cosmic_types(
-  sigclass = c("SBS96", "SBS1536", "ID83", "CN48", "CN80", "DBS78", "SV32", "RNA-SBS192")
-)
+sig_get_valid_cosmic_types(sigclass)
 }
 \arguments{
-\item{sigclass}{A string indicating the class of signatures. Possible values are "SBS96", "SBS1536", "ID83", "CN48", "DBS78", "SV32", or "RNA-SBS192".}
+\item{sigclass}{A string indicating the class of signatures. Run \code{\link[=sig_valid_sigclass]{sig_valid_sigclass()}} to see all options.}
 }
 \value{
 A character vector of valid COSMIC channels or types for the specified signature class.
