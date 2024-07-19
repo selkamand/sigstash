@@ -6,7 +6,7 @@
 \usage{
 sig_convert_channel2type(
   channel,
-  sigclass = c("SBS", "ID", "CN", "DBS", "SV", "RNA-SBS")
+  sigclass = c("SBS96", "SBS1536", "ID83", "CN48", "DBS78", "SV32", "RNA-SBS192")
 )
 }
 \arguments{
