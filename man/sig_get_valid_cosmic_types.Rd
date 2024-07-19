@@ -5,7 +5,7 @@
 \title{Get Valid COSMIC Channels and Types}
 \usage{
 sig_get_valid_cosmic_types(
-  sigclass = c("SBS96", "SBS1536", "ID83", "CN48", "DBS78", "SV32", "RNA-SBS192")
+  sigclass = c("SBS96", "SBS1536", "ID83", "CN48", "CN80", "DBS78", "SV32", "RNA-SBS192")
 )
 }
 \arguments{
