@@ -472,18 +472,40 @@ sig_convert_channel_name <- function(channel, from = c("cosmic", "sigminer"), to
   to <- rlang::arg_match(to)
 
   if (from == "cosmic" & to == "sigminer") {
-    # Capitalise kb to Kb in copynumber channel names
-    channel <- sub(x = channel, "([0-9])kb", "\\1Kb")
+
 
     # Convert _ to : in SV channel names
-    channel <- gsub(x = channel, "_", ":")
-  } else if (from == "sigminer" & to == "cosmic") {
-    # Un-capitalise Kb to kb in copynumber channel names
-    channel <- sub(x = channel, "([0-9])Kb", "\\1kb")
+    if(any(grepl(x=channel, "clustered")))
+      channel <- gsub(x = channel, "_", ":")
 
-    # Convert ':' to '_' in SV channel names
-    channel <- gsub(x = channel, ":", "_")
+    # Otherwise (if not an SV channel)
+    else{
+      # Capitalise kb to Kb in copynumber channel names
+      channel <- sub(x = channel, "([0-9])kb", "\\1Kb")
+
+      # For indels convert : to _
+      channel <- gsub(x = channel, ":", "_")
+    }
+
+
+  } else if (from == "sigminer" & to == "cosmic") {
+
+    # Convert : to _ in SV channel names
+    if(any(grepl(x=channel, "clustered")))
+      channel <- gsub(x = channel, ":", "_")
+
+    # If not an SV
+    else{
+      # Convert _ to : for indels
+      channel <- gsub(x = channel, "_", ":")
+
+      # Un-capitalise Kb to kb in copynumber channel names
+      channel <- sub(x = channel, "([0-9])Kb", "\\1kb")
+    }
+
   } else {
     stop("Channel name conversion from ", from, " to ", to, " has not yet been implemented. Please create a new issue on the sigstash github page")
   }
+
+  return(channel)
 }
