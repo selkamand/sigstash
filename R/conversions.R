@@ -388,7 +388,7 @@ cosmic_rna_sbs192_channel_to_type <- function() {
 }
 
 cosmic_sv38_channel_to_type <- function() {
-  c(`clustered:del:<1Kb` = "clustered:del", `clustered:del:>10Mb` = "clustered:del", `clustered:del:1-10Kb` = "clustered:del", `clustered:del:10-100Kb` = "clustered:del", `clustered:del:100Kb-1Mb` = "clustered:del", `clustered:del:1Mb-10Mb` = "clustered:del", `clustered:inv:<1Kb` = "clustered:inv", `clustered:inv:>10Mb` = "clustered:inv", `clustered:inv:1-10Kb` = "clustered:inv", `clustered:inv:10-100Kb` = "clustered:inv", `clustered:inv:100Kb-1Mb` = "clustered:inv", `clustered:inv:1Mb-10Mb` = "clustered:inv", `clustered:tds:<1Kb` = "clustered:tds", `clustered:tds:>10Mb` = "clustered:tds", `clustered:tds:1-10Kb` = "clustered:tds", `clustered:tds:10-100Kb` = "clustered:tds", `clustered:tds:100Kb-1Mb` = "clustered:tds", `clustered:tds:1Mb-10Mb` = "clustered:tds", `clustered:trans` = "clustered:trans", `non-clustered:del:<1Kb` = "non-clustered:del", `non-clustered:del:>10Mb` = "non-clustered:del", `non-clustered:del:1-10Kb` = "non-clustered:del", `non-clustered:del:10-100Kb` = "non-clustered:del", `non-clustered:del:100Kb-1Mb` = "non-clustered:del", `non-clustered:del:1Mb-10Mb` = "non-clustered:del", `non-clustered:inv:<1Kb` = "non-clustered:inv", `non-clustered:inv:>10Mb` = "non-clustered:inv", `non-clustered:inv:1-10Kb` = "non-clustered:inv", `non-clustered:inv:10-100Kb` = "non-clustered:inv", `non-clustered:inv:100Kb-1Mb` = "non-clustered:inv", `non-clustered:inv:1Mb-10Mb` = "non-clustered:inv", `non-clustered:tds:<1Kb` = "non-clustered:tds", `non-clustered:tds:>10Mb` = "non-clustered:tds", `non-clustered:tds:1-10Kb` = "non-clustered:tds", `non-clustered:tds:10-100Kb` = "non-clustered:tds", `non-clustered:tds:100Kb-1Mb` = "non-clustered:tds", `non-clustered:tds:1Mb-10Mb` = "non-clustered:tds", `non-clustered:trans` = "non-clustered:trans")
+  c(`clustered_del_<1Kb` = "clustered_del", `clustered_del_>10Mb` = "clustered_del", `clustered_del_1-10Kb` = "clustered_del", `clustered_del_10-100Kb` = "clustered_del", `clustered_del_100Kb-1Mb` = "clustered_del", `clustered_del_1Mb-10Mb` = "clustered_del", `clustered_inv_<1Kb` = "clustered_inv", `clustered_inv_>10Mb` = "clustered_inv", `clustered_inv_1-10Kb` = "clustered_inv", `clustered_inv_10-100Kb` = "clustered_inv", `clustered_inv_100Kb-1Mb` = "clustered_inv", `clustered_inv_1Mb-10Mb` = "clustered_inv", `clustered_tds_<1Kb` = "clustered_tds", `clustered_tds_>10Mb` = "clustered_tds", `clustered_tds_1-10Kb` = "clustered_tds", `clustered_tds_10-100Kb` = "clustered_tds", `clustered_tds_100Kb-1Mb` = "clustered_tds", `clustered_tds_1Mb-10Mb` = "clustered_tds", `clustered_trans` = "clustered_trans", `non-clustered_del_<1Kb` = "non-clustered_del", `non-clustered_del_>10Mb` = "non-clustered_del", `non-clustered_del_1-10Kb` = "non-clustered_del", `non-clustered_del_10-100Kb` = "non-clustered_del", `non-clustered_del_100Kb-1Mb` = "non-clustered_del", `non-clustered_del_1Mb-10Mb` = "non-clustered_del", `non-clustered_inv_<1Kb` = "non-clustered_inv", `non-clustered_inv_>10Mb` = "non-clustered_inv", `non-clustered_inv_1-10Kb` = "non-clustered_inv", `non-clustered_inv_10-100Kb` = "non-clustered_inv", `non-clustered_inv_100Kb-1Mb` = "non-clustered_inv", `non-clustered_inv_1Mb-10Mb` = "non-clustered_inv", `non-clustered_tds_<1Kb` = "non-clustered_tds", `non-clustered_tds_>10Mb` = "non-clustered_tds", `non-clustered_tds_1-10Kb` = "non-clustered_tds", `non-clustered_tds_10-100Kb` = "non-clustered_tds", `non-clustered_tds_100Kb-1Mb` = "non-clustered_tds", `non-clustered_tds_1Mb-10Mb` = "non-clustered_tds", `non-clustered_trans` = "non-clustered_trans")
 }
 
 # Export Data -------------------------------------------------------------
@@ -439,7 +439,6 @@ sig_collection_to_sigminer <- function(signatures) {
 
   # Convert Sigstash (cosmic-style) Channel Names to Sigminer
   first_sig_channel_order <- sig_convert_channel_name(first_sig_channel_order, from = "cosmic", to = "sigminer")
-
   rownames(df_wide) <- first_sig_channel_order
 
 
@@ -482,9 +481,6 @@ sig_convert_channel_name <- function(channel, from = c("cosmic", "sigminer"), to
     else{
       # Capitalise kb to Kb in copynumber channel names
       channel <- sub(x = channel, "([0-9])kb", "\\1Kb")
-
-      # For indels convert : to _
-      channel <- gsub(x = channel, ":", "_")
     }
 
 
@@ -496,9 +492,6 @@ sig_convert_channel_name <- function(channel, from = c("cosmic", "sigminer"), to
 
     # If not an SV
     else{
-      # Convert _ to : for indels
-      channel <- gsub(x = channel, "_", ":")
-
       # Un-capitalise Kb to kb in copynumber channel names
       channel <- sub(x = channel, "([0-9])Kb", "\\1kb")
     }

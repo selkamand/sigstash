@@ -38,23 +38,23 @@ cosmic_style_indels <- c("1:Del:C:0", "1:Del:C:1", "1:Del:C:2", "1:Del:C:3", "1:
                          "4:Del:M:1", "4:Del:M:2", "4:Del:M:3", "5:Del:M:1", "5:Del:M:2",
                          "5:Del:M:3", "5:Del:M:4", "5:Del:M:5")
 
-sigminer_style_indels <- c("1_Del_C_0", "1_Del_C_1", "1_Del_C_2", "1_Del_C_3", "1_Del_C_4",
-                          "1_Del_C_5", "1_Del_T_0", "1_Del_T_1", "1_Del_T_2", "1_Del_T_3",
-                          "1_Del_T_4", "1_Del_T_5", "1_Ins_C_0", "1_Ins_C_1", "1_Ins_C_2",
-                          "1_Ins_C_3", "1_Ins_C_4", "1_Ins_C_5", "1_Ins_T_0", "1_Ins_T_1",
-                          "1_Ins_T_2", "1_Ins_T_3", "1_Ins_T_4", "1_Ins_T_5", "2_Del_R_0",
-                          "2_Del_R_1", "2_Del_R_2", "2_Del_R_3", "2_Del_R_4", "2_Del_R_5",
-                          "3_Del_R_0", "3_Del_R_1", "3_Del_R_2", "3_Del_R_3", "3_Del_R_4",
-                          "3_Del_R_5", "4_Del_R_0", "4_Del_R_1", "4_Del_R_2", "4_Del_R_3",
-                          "4_Del_R_4", "4_Del_R_5", "5_Del_R_0", "5_Del_R_1", "5_Del_R_2",
-                          "5_Del_R_3", "5_Del_R_4", "5_Del_R_5", "2_Ins_R_0", "2_Ins_R_1",
-                          "2_Ins_R_2", "2_Ins_R_3", "2_Ins_R_4", "2_Ins_R_5", "3_Ins_R_0",
-                          "3_Ins_R_1", "3_Ins_R_2", "3_Ins_R_3", "3_Ins_R_4", "3_Ins_R_5",
-                          "4_Ins_R_0", "4_Ins_R_1", "4_Ins_R_2", "4_Ins_R_3", "4_Ins_R_4",
-                          "4_Ins_R_5", "5_Ins_R_0", "5_Ins_R_1", "5_Ins_R_2", "5_Ins_R_3",
-                          "5_Ins_R_4", "5_Ins_R_5", "2_Del_M_1", "3_Del_M_1", "3_Del_M_2",
-                          "4_Del_M_1", "4_Del_M_2", "4_Del_M_3", "5_Del_M_1", "5_Del_M_2",
-                          "5_Del_M_3", "5_Del_M_4", "5_Del_M_5")
+sigminer_style_indels <- c("1:Del:C:0", "1:Del:C:1", "1:Del:C:2", "1:Del:C:3", "1:Del:C:4",
+                           "1:Del:C:5", "1:Del:T:0", "1:Del:T:1", "1:Del:T:2", "1:Del:T:3",
+                           "1:Del:T:4", "1:Del:T:5", "1:Ins:C:0", "1:Ins:C:1", "1:Ins:C:2",
+                           "1:Ins:C:3", "1:Ins:C:4", "1:Ins:C:5", "1:Ins:T:0", "1:Ins:T:1",
+                           "1:Ins:T:2", "1:Ins:T:3", "1:Ins:T:4", "1:Ins:T:5", "2:Del:R:0",
+                           "2:Del:R:1", "2:Del:R:2", "2:Del:R:3", "2:Del:R:4", "2:Del:R:5",
+                           "3:Del:R:0", "3:Del:R:1", "3:Del:R:2", "3:Del:R:3", "3:Del:R:4",
+                           "3:Del:R:5", "4:Del:R:0", "4:Del:R:1", "4:Del:R:2", "4:Del:R:3",
+                           "4:Del:R:4", "4:Del:R:5", "5:Del:R:0", "5:Del:R:1", "5:Del:R:2",
+                           "5:Del:R:3", "5:Del:R:4", "5:Del:R:5", "2:Ins:R:0", "2:Ins:R:1",
+                           "2:Ins:R:2", "2:Ins:R:3", "2:Ins:R:4", "2:Ins:R:5", "3:Ins:R:0",
+                           "3:Ins:R:1", "3:Ins:R:2", "3:Ins:R:3", "3:Ins:R:4", "3:Ins:R:5",
+                           "4:Ins:R:0", "4:Ins:R:1", "4:Ins:R:2", "4:Ins:R:3", "4:Ins:R:4",
+                           "4:Ins:R:5", "5:Ins:R:0", "5:Ins:R:1", "5:Ins:R:2", "5:Ins:R:3",
+                           "5:Ins:R:4", "5:Ins:R:5", "2:Del:M:1", "3:Del:M:1", "3:Del:M:2",
+                           "4:Del:M:1", "4:Del:M:2", "4:Del:M:3", "5:Del:M:1", "5:Del:M:2",
+                           "5:Del:M:3", "5:Del:M:4", "5:Del:M:5")
 
 cosmic_style_sv <- c("clustered_del_1-10Kb", "clustered_del_10-100Kb", "clustered_del_100Kb-1Mb",
                      "clustered_del_1Mb-10Mb", "clustered_del_>10Mb", "clustered_tds_1-10Kb",
@@ -83,19 +83,19 @@ sigminer_style_sv <- c("clustered:del:1-10Kb", "clustered:del:10-100Kb", "cluste
                        "non-clustered:inv:>10Mb", "non-clustered:trans")
 
 cosmic_style_cn48 <- sig_get_valid_cosmic_channels("CN48")
-sigminer_style_cn48 <- c("0_homdel_0-100Kb", "0_homdel_100Kb-1Mb", "0_homdel_>1Mb",
-                         "1_LOH_0-100Kb", "1_LOH_100Kb-1Mb", "1_LOH_1Mb-10Mb", "1_LOH_10Mb-40Mb",
-                         "1_LOH_>40Mb", "2_LOH_0-100Kb", "2_LOH_100Kb-1Mb", "2_LOH_1Mb-10Mb",
-                         "2_LOH_10Mb-40Mb", "2_LOH_>40Mb", "3-4_LOH_0-100Kb", "3-4_LOH_100Kb-1Mb",
-                         "3-4_LOH_1Mb-10Mb", "3-4_LOH_10Mb-40Mb", "3-4_LOH_>40Mb", "5-8_LOH_0-100Kb",
-                         "5-8_LOH_100Kb-1Mb", "5-8_LOH_1Mb-10Mb", "5-8_LOH_10Mb-40Mb",
-                         "5-8_LOH_>40Mb", "9+_LOH_0-100Kb", "9+_LOH_100Kb-1Mb", "9+_LOH_1Mb-10Mb",
-                         "9+_LOH_10Mb-40Mb", "9+_LOH_>40Mb", "2_het_0-100Kb", "2_het_100Kb-1Mb",
-                         "2_het_1Mb-10Mb", "2_het_10Mb-40Mb", "2_het_>40Mb", "3-4_het_0-100Kb",
-                         "3-4_het_100Kb-1Mb", "3-4_het_1Mb-10Mb", "3-4_het_10Mb-40Mb",
-                         "3-4_het_>40Mb", "5-8_het_0-100Kb", "5-8_het_100Kb-1Mb", "5-8_het_1Mb-10Mb",
-                         "5-8_het_10Mb-40Mb", "5-8_het_>40Mb", "9+_het_0-100Kb", "9+_het_100Kb-1Mb",
-                         "9+_het_1Mb-10Mb", "9+_het_10Mb-40Mb", "9+_het_>40Mb")
+sigminer_style_cn48 <- c("0:homdel:0-100Kb", "0:homdel:100Kb-1Mb", "0:homdel:>1Mb",
+                         "1:LOH:0-100Kb", "1:LOH:100Kb-1Mb", "1:LOH:1Mb-10Mb", "1:LOH:10Mb-40Mb",
+                         "1:LOH:>40Mb", "2:LOH:0-100Kb", "2:LOH:100Kb-1Mb", "2:LOH:1Mb-10Mb",
+                         "2:LOH:10Mb-40Mb", "2:LOH:>40Mb", "3-4:LOH:0-100Kb", "3-4:LOH:100Kb-1Mb",
+                         "3-4:LOH:1Mb-10Mb", "3-4:LOH:10Mb-40Mb", "3-4:LOH:>40Mb", "5-8:LOH:0-100Kb",
+                         "5-8:LOH:100Kb-1Mb", "5-8:LOH:1Mb-10Mb", "5-8:LOH:10Mb-40Mb",
+                         "5-8:LOH:>40Mb", "9+:LOH:0-100Kb", "9+:LOH:100Kb-1Mb", "9+:LOH:1Mb-10Mb",
+                         "9+:LOH:10Mb-40Mb", "9+:LOH:>40Mb", "2:het:0-100Kb", "2:het:100Kb-1Mb",
+                         "2:het:1Mb-10Mb", "2:het:10Mb-40Mb", "2:het:>40Mb", "3-4:het:0-100Kb",
+                         "3-4:het:100Kb-1Mb", "3-4:het:1Mb-10Mb", "3-4:het:10Mb-40Mb",
+                         "3-4:het:>40Mb", "5-8:het:0-100Kb", "5-8:het:100Kb-1Mb", "5-8:het:1Mb-10Mb",
+                         "5-8:het:10Mb-40Mb", "5-8:het:>40Mb", "9+:het:0-100Kb", "9+:het:100Kb-1Mb",
+                         "9+:het:1Mb-10Mb", "9+:het:10Mb-40Mb", "9+:het:>40Mb")
 
 cosmic_style_sbs96 <- sig_get_valid_cosmic_channels("SBS96")
 sigminer_style_sbs96 <- c("A[C>A]A", "A[C>A]C", "A[C>A]G", "A[C>A]T", "A[C>G]A", "A[C>G]C",
@@ -197,4 +197,13 @@ test_that("Cosmic to Sigminer conversion works", {
       sig_convert_channel_name(sigminer_style_dbs78, from = "sigminer", to="cosmic"),
       cosmic_style_dbs78
     )
+})
+
+
+test_that("sig_load as sigminer works", {
+
+  expect_no_error(sig_load("COSMIC_v3.4_ID_GRCh37", format = "sigminer"))
+
+  id_channels <- rownames(sig_load("COSMIC_v3.4_ID_GRCh37", format = "sigminer"))
+  expect_equal(id_channels, sigminer_style_indels)
 })
