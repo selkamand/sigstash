@@ -439,7 +439,6 @@ sig_collection_to_sigminer <- function(signatures) {
 
   # Convert Sigstash (cosmic-style) Channel Names to Sigminer
   first_sig_channel_order <- sig_convert_channel_name(first_sig_channel_order, from = "cosmic", to = "sigminer")
-
   rownames(df_wide) <- first_sig_channel_order
 
 
@@ -482,9 +481,6 @@ sig_convert_channel_name <- function(channel, from = c("cosmic", "sigminer"), to
     else{
       # Capitalise kb to Kb in copynumber channel names
       channel <- sub(x = channel, "([0-9])kb", "\\1Kb")
-
-      # For indels convert : to _
-      channel <- gsub(x = channel, ":", "_")
     }
 
 
@@ -496,9 +492,6 @@ sig_convert_channel_name <- function(channel, from = c("cosmic", "sigminer"), to
 
     # If not an SV
     else{
-      # Convert _ to : for indels
-      channel <- gsub(x = channel, "_", ":")
-
       # Un-capitalise Kb to kb in copynumber channel names
       channel <- sub(x = channel, "([0-9])Kb", "\\1kb")
     }
