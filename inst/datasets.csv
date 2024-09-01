@@ -1,5 +1,6 @@
 dataset,type,description,path_signature,annotations,citation
-REFSIG_v2.03_SBS,signature,Cancer-Related Single Base Substitution Signatures (GRCh38). 96 channels represent trinucleotide contexts,reference_signatures/REFSIG_v2.03_SBS.csv,REFSIG_v2.03_SBS_annotations,doi:10.1126/science.abl9283
+REFSIG_v2.03_SBS,signature,Cancer-Related Single Base Substitution Signatures. 96 channels represent trinucleotide contexts,reference_signatures/REFSIG_v2.03_SBS.csv,REFSIG_v2.03_SBS_annotations,doi:10.1126/science.abl9283
+REFSIG_v2.03_DBS,signature,Cancer-Related Doublet Base Substitution Signatures. 78 channels represent doublet substitutions such as AA>NN or CC>NN,reference_signatures/REFSIG_v2.03_DBS.csv,REFSIG_v2.03_DBS_annotations,doi:10.1126/science.abl9283
 COSMIC_v3.4_SBS_GRCh38,signature,Cancer-Related Single Base Substitution Signatures (GRCh38). 96 channels represent trinucleotide contexts,reference_signatures/COSMIC_v3.4_SBS_GRCh38.csv,COSMIC_v3.4_SBS_annotations,
 COSMIC_v3.4_DBS_GRCh38,signature,Cancer-Related Doublet Base Substitution Signatures (GRCh38).  78 channels represent doublet substitutions such as AA>NN or CC>NN,reference_signatures/COSMIC_v3.4_DBS_GRCh38.csv,COSMIC_v3.4_DBS_annotations,
 COSMIC_v3.4_SV_GRCh38,signature,Cancer-Related Structural Variant  Signatures (GRCh38).  32 channels represent different types and sizes of SVs.,reference_signatures/COSMIC_v3.4_SV_GRCh38.csv,COSMIC_v3.4_SV_annotations,
