@@ -62,20 +62,18 @@ sig_load <- function(dataset, format = c("sigstash", "tidy", "sigminer")) {
 
   df_data <- utils::read.csv(path, header = TRUE)
 
+  ls_data <- sig_collection_reformat_tidy_to_list(df_data)
+
   if (format == "sigstash") {
-    ls_data <- split(df_data[-1], df_data[["signature"]])
-    ls_data <- lapply(ls_data, tibble::tibble)
     return(ls_data)
   }
 
   if (format == "tidy") {
-    df_data <- tibble::as_tibble(df_data)
+    df_data <- sig_collection_reformat_list_to_tidy(ls_data)
     return(df_data)
   }
 
   if (format == "sigminer") {
-    ls_data <- split(df_data[-1], df_data[["signature"]])
-    ls_data <- lapply(ls_data, tibble::tibble)
     df_data <- sig_collection_to_sigminer(ls_data)
     return(df_data)
   }
