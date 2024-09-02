@@ -426,6 +426,39 @@ sig_collection_to_sigminer <- function(signatures) {
   sigshared::assert_signature_collection(signatures)
   assertions::assert_greater_than(length(signatures), minimum = 0)
 
+  df_wide <- sig_collection_reformat_list_to_wide(signatures)
+
+  # Convert Sigstash (cosmic-style) Channel Names to Sigminer
+  channels <- rownames(df_wide)
+  sigminer_channels <- sig_convert_channel_name(channels, from = "cosmic", to = "sigminer")
+  rownames(df_wide) <- sigminer_channels
+
+  return(df_wide)
+}
+
+sig_collection_reformat_list_to_tidy <- function(signatures){
+  sigshared::assert_signature_collection(signatures)
+  signatures <- lapply(seq_along(signatures), FUN = \(i){
+    signatures[[i]][["signature"]] <- names(signatures)[i]; return(signatures[[i]])
+  })
+
+  df <- do.call(rbind, signatures)
+  df <- df[c("signature", 'type', 'channel', 'fraction')]
+  return(df)
+}
+
+
+sig_collection_reformat_tidy_to_list <- function(signatures){
+  assertions::assert_dataframe(signatures)
+  ls_data <- split(signatures[-1], signatures[["signature"]])
+  ls_data <- lapply(ls_data, tibble::tibble)
+  return(ls_data)
+}
+
+sig_collection_reformat_list_to_wide <- function(signatures){
+  sigshared::assert_signature_collection(signatures)
+  assertions::assert_greater_than(length(signatures), minimum = 0)
+
   first_sig_channel_order <- signatures[[1]][["channel"]]
 
   ls <- lapply(seq_along(signatures), FUN = \(i){
@@ -435,17 +468,13 @@ sig_collection_to_sigminer <- function(signatures) {
     colnames(df_fraction) <- names(signatures)[i]
     return(df_fraction)
   })
+
   df_wide <- do.call("cbind", ls)
 
-  # Convert Sigstash (cosmic-style) Channel Names to Sigminer
-  first_sig_channel_order <- sig_convert_channel_name(first_sig_channel_order, from = "cosmic", to = "sigminer")
   rownames(df_wide) <- first_sig_channel_order
-
 
   return(df_wide)
 }
-
-
 
 # Channel Name Conversions ------------------------------------------------
 #' Convert Channel Names Between 'cosmic' and 'sigminer' Formats
