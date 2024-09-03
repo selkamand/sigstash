@@ -1,11 +1,11 @@
 test_that("sig_write works", {
   signatures <- list(
-    sig1 = dplyr::tibble(
+    sig1 = tibble::tibble(
       type = rep("A>G", 3L),
       channel = c("A[A->G]G", "A[A->G]C", "A[A->G]T"),
       fraction = c(0.4, 0.1, 0.5)
     ),
-    sig2 = dplyr::tibble(
+    sig2 = tibble::tibble(
       type = rep("A>G", 3L),
       channel = c("A[A->G]G", "A[A->G]C", "A[A->G]T"),
       fraction = c(0.4, 0.1, 0.5)
