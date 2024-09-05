@@ -8,6 +8,7 @@ Description: A collection of published mutational signatures in signature collec
 License: MIT + file LICENSE
 Suggests: 
     covr,
+    here,
     knitr,
     quadprog,
     rlang,
@@ -23,6 +24,7 @@ RoxygenNote: 7.3.1
 VignetteBuilder: knitr
 Imports: 
     assertions,
+    digest,
     tibble
 Remotes:
     selkamand/sigshared
