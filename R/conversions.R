@@ -448,12 +448,29 @@ sig_collection_reformat_list_to_tidy <- function(signatures){
 }
 
 
-sig_collection_reformat_tidy_to_list <- function(signatures){
+sig_collection_reformat_tidy_to_list <- function(signatures) {
+  # Ensure the input is a dataframe
   assertions::assert_dataframe(signatures)
+
+  # Convert the 'signature' column to a factor to preserve its order during the split.
+  # Setting 'levels' based on the current order prevents lexicographic sorting,
+  # which can vary by locale and ensures that the split preserves the order
+  # in the original dataframe.
+  signatures[["signature"]] <- factor(
+    signatures[["signature"]],
+    levels = unique(signatures[["signature"]])
+  )
+
+  # Split the dataframe into a list of signature-specific dataframes,
+  # excluding the 'signature' column, which is now used as the list index.
   ls_data <- split(signatures[-1], signatures[["signature"]])
+
+  # Convert each dataframe in the list to a tibble for consistent formatting.
   ls_data <- lapply(ls_data, tibble::tibble)
+
   return(ls_data)
 }
+
 
 sig_collection_reformat_list_to_wide <- function(signatures){
   sigshared::assert_signature_collection(signatures)
