@@ -19,10 +19,8 @@
 #' it returns `"Uncertain"`.
 #'
 #' @examples
-#' # Assuming 'my_signatures' is a signature dataset:
 #' sig_identify_collection(sig_load("COSMIC_v3.4_SBS_GRCh38"), return = "name")
 #'
-#' # Example returning the dataset name along with its format:
 #' sig_identify_collection(sig_load("COSMIC_v3.4_SBS_GRCh38"), return = "name_plus_format")
 #'
 #' @export
@@ -72,6 +70,8 @@ precompute_and_save_md5s <- function(){
 #' across formats ('tidy', 'sigstash', 'sigminer'). Before calculating the
 #' checksums, the signatures are sorted internally, so their prior sorting
 #' does not affect the result.
+#' Numeric values are also rounded to 5 decimal places to avoid any OS-specific
+#' issues.
 #'
 #' @return
 #' A named list where each MD5 sum is a key, and the value is a list containing:
@@ -137,14 +137,20 @@ load_precomputed_md5s_as_df <- function(){
 }
 
 
-
+round_fractions <- function(dataset, digits = 5){
+  dataset[] <- lapply(dataset, function(x) {
+    if(is.numeric(x)) round(x, digits) else x
+  })
+}
 
 get_md5sum <- function(dataset){
   if(is.data.frame(dataset)){
     dataset <- sort_signatures_dataframe(dataset)
+    dataset <- round_fractions(dataset)
   }
   else if(is.list(dataset)){
     dataset <- sort_signatures_list(dataset)
+    dataset <- lapply(dataset, round_fractions)
   }
   else
     stop("Unexpected dataset class")

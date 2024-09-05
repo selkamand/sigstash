@@ -33,10 +33,8 @@ precomputed data. The function can return either the dataset name or the
 dataset name along with the format (e.g., 'tidy', 'sigstash', 'sigminer').
 }
 \examples{
-# Assuming 'my_signatures' is a signature dataset:
 sig_identify_collection(sig_load("COSMIC_v3.4_SBS_GRCh38"), return = "name")
 
-# Example returning the dataset name along with its format:
 sig_identify_collection(sig_load("COSMIC_v3.4_SBS_GRCh38"), return = "name_plus_format")
 
 }
