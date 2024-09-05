@@ -57,6 +57,14 @@ sig_identify_collection <- function(signatures, return = c("name", "name_plus_fo
   }
 }
 
+precompute_and_save_md5s <- function(){
+  requireNamespace("here", quietly = TRUE)
+  filepath = here::here("inst/reference_signatures/md5sums.Rds")
+  message("Writing md5s to [", filepath, "]")
+  l <- compute_md5_for_all_collections()
+  saveRDS(l, file = filepath)
+}
+
 
 #' Compute MD5 sums for all datasets and formats
 #'
@@ -113,13 +121,6 @@ compute_md5_for_all_collections <- function(){
 }
 
 
-precompute_and_save_md5s <- function(){
-  requireNamespace("here", quietly = TRUE)
-  filepath = here::here("inst/reference_signatures/md5sums.Rds")
-  message("Writing md5s to [", filepath, "]")
-  l <- compute_md5_for_all_collections()
-  saveRDS(l, file = filepath)
-}
 
 load_precomputed_md5s <- function(){
   path = system.file("reference_signatures/md5sums.Rds", package = "sigstash")
