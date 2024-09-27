@@ -1,10 +1,7 @@
-#' Check if a signature collection matches a known dataset
+#' Check the name and format of a signature collection
 #'
-#' The `sig_identify_collection` function checks whether a given signature collection
-#' matches any precomputed dataset by computing its MD5 checksum and comparing it
-#' with a reference set of checksums. The reference checksums are loaded from
-#' precomputed data. The function can return either the dataset name or the
-#' dataset name along with the format (e.g., 'tidy', 'sigstash', 'sigminer').
+#' Identifies signature collections either by looking for attributes added by [sig_load()]
+#' or by comparing md5sum hash against a reference database of checksums. See the `method` argument documentation for details.
 #'
 #' @param signatures A signature dataset (in sigstash, tidy, or sigminer format) to be checked.
 #'   The signatures will be sorted before the MD5 checksum is computed.
@@ -12,11 +9,16 @@
 #'   - `"name"`: Returns just the dataset name.
 #'   - `"name_plus_format"`: Returns both the dataset name and format in a single string.
 #'   Default is `"name"`.
+#' @param method Method of collection identification. Should be one of:
+#' - `"attributes"`: identify collection based on collection_name and format attributes added by [sig_load()]
+#' - `"hash"`: identify collection by comparing the md5 hash to a reference database of checksums.
+#' - `"all"`: identify collection using all methods available and return result of whichever is successful.
+#'Throws an error if the methods disagree.
 #'
 #' @return
-#' If the signature collection matches a known dataset, the function returns either
-#' the dataset name or the dataset name with the format. If no match is found,
-#' it returns `"Uncertain"`.
+#' If the signature collection was identified this function returns either the
+#' dataset name  or the dataset name with the format (depending on the `return` argument).
+#' If no match is found it returns `"Uncertain"`.
 #'
 #' @examples
 #' sig_identify_collection(sig_load("COSMIC_v3.4_SBS_GRCh38"), return = "name")
@@ -24,36 +26,31 @@
 #' sig_identify_collection(sig_load("COSMIC_v3.4_SBS_GRCh38"), return = "name_plus_format")
 #'
 #' @export
-sig_identify_collection <- function(signatures, return = c("name", "name_plus_format", "md5")) {
+sig_identify_collection <- function(signatures, return = c("name", "name_plus_format", "md5"),  method = c("all", "attributes", "hash")) {
 
-  # Ensure 'return' is one of the allowed options
-  return <- rlang::arg_match(return)
+  method <- rlang::arg_match(method)
 
-  # Load the precomputed MD5 sums for all known datasets
-  md5_to_collection_map <- load_precomputed_md5s()
-
-  # Compute the MD5 checksum of the input signature collection
-  md5sum <- get_md5sum(signatures)
-
-  if(return == "md5") {return(md5sum)}
-
-  # If the MD5 checksum is not found in the precomputed collection, return "Uncertain"
-  if (!md5sum %in% names(md5_to_collection_map)) {
-    return("Uncertain")
+  if (method == "attributes"){
+    identification <- sig_identify_collection_from_attributes(signatures=signatures, return=return)
+    return(identification)
   }
-
-  # Retrieve the description corresponding to the MD5 sum
-  description <- md5_to_collection_map[[md5sum]]
-
-  # Return the appropriate value based on the 'return' argument
-  if (return == "name") {
-    return(description[["dataset"]])
-  } else if (return == "name_plus_format") {
-    return(description[["unique_name"]])
-  } else {
-    stop("Unexpected value of return: ", as.character(return))
+  else if (method == "hash"){
+    identification <- sig_identify_collection_from_hash(signatures=signatures, return=return)
+    return(identification)
+  }
+  else if (method == "all"){
+    ids <- c(
+      sig_identify_collection_from_hash(signatures=signatures, return=return),
+      sig_identify_collection_from_attributes(signatures=signatures, return=return)
+      )
+    non_uncertain_ids <- Filter(x = unique(ids), f = \(x){x!= "Uncertain"})
+    if(length(non_uncertain_ids) == 0 ) return("Uncertain")
+    else if(length(non_uncertain_ids) == 1 ) return(non_uncertain_ids)
+    else stop("Signature identification by md5 hash and attribute methods disagree. Hash: [", ids[1], "] Attributes: ", ids[2])
   }
 }
+
+
 
 precompute_and_save_md5s <- function(){
   requireNamespace("here", quietly = TRUE)
@@ -169,6 +166,82 @@ sort_signatures_dataframe <- function(df){
   else{
     return(df[li_order(row.names(df)), ])
   }
+}
+
+# Attempt to identify signature collection by md5sum
+sig_identify_collection_from_hash <- function(signatures, return = c("name", "name_plus_format", "md5")) {
+
+  # Ensure 'return' is one of the allowed options
+  return <- rlang::arg_match(return)
+
+  # Check digest package is installed
+  rlang::check_installed(
+    pkg = "digest",
+    reason = "for identifying signature collections from md5 hash"
+  )
+
+
+  # Load the precomputed MD5 sums for all known datasets
+  md5_to_collection_map <- load_precomputed_md5s()
+
+  # Compute the MD5 checksum of the input signature collection
+  md5sum <- get_md5sum(signatures)
+
+  if(return == "md5") {return(md5sum)}
+
+  # If the MD5 checksum is not found in the precomputed collection, return "Uncertain"
+  if (!md5sum %in% names(md5_to_collection_map)) {
+    return("Uncertain")
+  }
+
+  # Retrieve the description corresponding to the MD5 sum
+  description <- md5_to_collection_map[[md5sum]]
+
+  # Return the appropriate value based on the 'return' argument
+  if (return == "name") {
+    return(description[["dataset"]])
+  } else if (return == "name_plus_format") {
+    return(description[["unique_name"]])
+  } else {
+    stop("Unexpected value of return: ", as.character(return))
+  }
+}
+
+# Identify signature collection using the attributes, not the md5sum
+# Returns collection name as string or
+sig_identify_collection_from_attributes <- function(signatures, return = c("name", "name_plus_format", "md5")) {
+
+  # assertions
+  return <- rlang::arg_match(return)
+
+  assertions::assert(
+    return != "md5",
+    msg =  "
+    Cannot return md5sum when identifying signatures using attributes.
+    Either set {.arg from_attributes=FALSE} or {.code return='name' or 'name_plus_format'}"
+  )
+
+  # Identify collection
+  attrs <- attributes(signatures)
+  name <- attrs[["collection_name"]]
+  format <- attrs[["format"]]
+  unique_name <- paste0(name, " (format: ", format, ")")
+
+  # Early return "Uncertain" if no signature can be identified
+  if(is.null(name))
+    return("Uncertain")
+
+  # Return Names
+  if(return == "name"){
+    return(name)
+  }
+
+  if(return == "name_plus_format"){
+    return(unique_name)
+  }
+
+  stop("Unexpected value of 'return' argument to sig_identify_from_attributes: [", return, "]. Please create a github issue")
+
 }
 
 # Locale independent order function

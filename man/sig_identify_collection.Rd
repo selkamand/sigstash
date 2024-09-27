@@ -2,11 +2,12 @@
 % Please edit documentation in R/hash.R
 \name{sig_identify_collection}
 \alias{sig_identify_collection}
-\title{Check if a signature collection matches a known dataset}
+\title{Check the name and format of a signature collection}
 \usage{
 sig_identify_collection(
   signatures,
-  return = c("name", "name_plus_format", "md5")
+  return = c("name", "name_plus_format", "md5"),
+  method = c("all", "attributes", "hash")
 )
 }
 \arguments{
@@ -19,18 +20,23 @@ The signatures will be sorted before the MD5 checksum is computed.}
 \item \code{"name_plus_format"}: Returns both the dataset name and format in a single string.
 Default is \code{"name"}.
 }}
+
+\item{method}{Method of collection identification. Should be one of:
+\itemize{
+\item \code{"attributes"}: identify collection based on collection_name and format attributes added by \code{\link[=sig_load]{sig_load()}}
+\item \code{"hash"}: identify collection by comparing the md5 hash to a reference database of checksums.
+\item \code{"all"}: identify collection using all methods available and return result of whichever is successful.
+Throws an error if the methods disagree.
+}}
 }
 \value{
-If the signature collection matches a known dataset, the function returns either
-the dataset name or the dataset name with the format. If no match is found,
-it returns \code{"Uncertain"}.
+If the signature collection was identified this function returns either the
+dataset name  or the dataset name with the format (depending on the \code{return} argument).
+If no match is found it returns \code{"Uncertain"}.
 }
 \description{
-The \code{sig_identify_collection} function checks whether a given signature collection
-matches any precomputed dataset by computing its MD5 checksum and comparing it
-with a reference set of checksums. The reference checksums are loaded from
-precomputed data. The function can return either the dataset name or the
-dataset name along with the format (e.g., 'tidy', 'sigstash', 'sigminer').
+Identifies signature collections either by looking for attributes added by \code{\link[=sig_load]{sig_load()}}
+or by comparing md5sum hash against a reference database of checksums. See the \code{method} argument documentation for details.
 }
 \examples{
 sig_identify_collection(sig_load("COSMIC_v3.4_SBS_GRCh38"), return = "name")
