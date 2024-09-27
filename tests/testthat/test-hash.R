@@ -4,9 +4,6 @@ test_that("All signatures can be accurately checked using sig_identify_collectio
   # If it fails, please run precompute_and_save_md5s() to update the precomputed MD5 sums,
   # and then re-run the tests.
 
-  # Recompute md5sum for all collections
-  compute_md5_for_all_collections();
-
   # Get all available datasets
   available <- sig_available()
   datasets <- available[['dataset']]
