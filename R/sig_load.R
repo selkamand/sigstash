@@ -65,16 +65,19 @@ sig_load <- function(dataset, format = c("sigstash", "tidy", "sigminer")) {
   ls_data <- sig_collection_reformat_tidy_to_list(df_data)
 
   if (format == "sigstash") {
+    ls_data <- add_collection_attributes(ls_data, name = dataset, format = format)
     return(ls_data)
   }
 
   if (format == "tidy") {
     df_data <- sig_collection_reformat_list_to_tidy(ls_data)
+    df_data <- add_collection_attributes(df_data, name = dataset, format = format)
     return(df_data)
   }
 
   if (format == "sigminer") {
     df_data <- sig_collection_to_sigminer(ls_data)
+    df_data <- add_collection_attributes(df_data, name = dataset, format = format)
     return(df_data)
   }
 
@@ -123,5 +126,24 @@ sig_load_annotations <- function(dataset) {
 
   # Return annotation data.frame
   df_data <- tibble::tibble(df_data)
+
+  # Add attributes to make sure dataset described by annotation can be easily identified
+  df_data <- add_annotation_attributes(df_data, name = dataset)
+
   return(df_data)
+}
+
+
+# Adds attributes: collection_name and format
+add_collection_attributes <- function(obj, name, format){
+  attr(obj, "collection_name") <- name
+  attr(obj, "format") <- format
+
+  return(obj)
+}
+
+# Adds attributes: annotation_dataset
+add_annotation_attributes <- function(obj, name){
+  attr(obj, "annotation_dataset") <- name
+  return(obj)
 }
