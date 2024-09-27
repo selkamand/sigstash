@@ -171,7 +171,7 @@ sort_signatures_dataframe <- function(df){
   }
 }
 
-# Locale independend order
+# Locale independent order function
 li_order <- function(expr){
   # Save the current locale setting
   original_locale <- Sys.getlocale("LC_COLLATE")

@@ -6,6 +6,8 @@ Authors@R:
            comment = c(ORCID = "0000-0003-2270-8088"))
 Description: A collection of published mutational signatures in signature collection format, compatible with the sigverse.
 License: MIT + file LICENSE
+Depends:
+  R (>= 3.5.0)
 Suggests: 
     covr,
     here,

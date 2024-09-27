@@ -18,7 +18,9 @@ A named list where each MD5 sum is a key, and the value is a list containing:
 Computes MD5 checksums for each dataset in available signature collections,
 across formats ('tidy', 'sigstash', 'sigminer'). Before calculating the
 checksums, the signatures are sorted internally, so their prior sorting
-does not affect the result. Numeric values are also rounded to 5 decimal places to avoid.
+does not affect the result.
+Numeric values are also rounded to 5 decimal places to avoid any OS-specific
+issues.
 }
 \note{
 This function is internal and will not be exported.
