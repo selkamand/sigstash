@@ -158,15 +158,30 @@ get_md5sum <- function(dataset){
   digest::digest(dataset, algo = "md5")
 }
 sort_signatures_list <- function(l){
-  l <- l[order(names(l))]
+  l <- l[li_order(names(l))]
   lapply(l, FUN = \(df) { sort_signatures_dataframe(df)})
 }
 
 sort_signatures_dataframe <- function(df){
   if ("channel" %in% colnames(df)) {
-    return(df[order(df[["channel"]]),])
+    return(df[li_order(df[["channel"]]),])
   }
   else{
-    return(df[order(row.names(df)), ])
+    return(df[li_order(row.names(df)), ])
   }
+}
+
+# Locale independend order
+li_order <- function(expr){
+  # Save the current locale setting
+  original_locale <- Sys.getlocale("LC_COLLATE")
+
+  # Ensure the original locale is restored even if an error occurs
+  on.exit(Sys.setlocale("LC_COLLATE", original_locale), add = TRUE)
+
+  # Set the locale to "C" for consistent ordering
+  Sys.setlocale("LC_COLLATE", "C")
+
+  # Perform Ordering
+  order(expr)
 }
