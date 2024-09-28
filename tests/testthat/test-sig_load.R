@@ -8,8 +8,20 @@ test_that("sig_load works", {
 
   # All collections loadable without errors
   for (dataset in datasets) {
+    # Dataset Loads without Error
     expect_error(sig_load(dataset), NA)
     expect_error(sigshared::assert_signature_collection(sig_load(dataset)), NA)
+
+    # Contains the expected attributes
+    signatures <- sig_load(dataset)
+    attrs <- attributes(signatures)
+    expect(
+      all(c("collection_name", "format") %in% names(attrs)),
+      failure_message = paste0("Could not find required attributes for dataset ", dataset)
+    )
+    expect_identical(attrs[["collection_name"]], dataset)
+    expect_identical(attrs[["format"]], "sigstash")
+
   }
 
 
@@ -18,6 +30,7 @@ test_that("sig_load works", {
 
   # Expect Dataframe Output When format = "sigminer"
   expect_s3_class(sig_load(datasets[1], format = "sigminer"), "data.frame")
+
 })
 
 

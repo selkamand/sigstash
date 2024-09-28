@@ -1,6 +1,6 @@
 
 
-test_that("All signatures can be accurately checked using sig_identify_collection", {
+test_that("All signatures can be accurately checked using sig_identify_collection hash method", {
 
   # NOTE: This test is expected to fail after any update or addition to the signature library.
   # If it fails, please run precompute_and_save_md5s() to update the precomputed MD5 sums,
@@ -21,9 +21,16 @@ test_that("All signatures can be accurately checked using sig_identify_collectio
         # Load the dataset in the current format
         signatures <- sig_load(dataset_name, format = fmt)
 
-        # Check that the result from sig_identify_collection matches the dataset name
+        # Check that the result from sig_identify_collection matches the dataset name in hash mode
         expect_equal(
-          sig_identify_collection(signatures, return = "name"),
+          sig_identify_collection(signatures, return = "name", method = "hash"),
+          dataset_name,
+          info = paste("Failed for dataset", dataset_name, "in format", fmt)
+        )
+
+        # Check that the result from sig_identify_collection matches the dataset name in 'all' mode
+        expect_equal(
+          sig_identify_collection(signatures, return = "name", method = "all"),
           dataset_name,
           info = paste("Failed for dataset", dataset_name, "in format", fmt)
         )
@@ -49,6 +56,5 @@ test_that("All signatures can be accurately checked using sig_identify_collectio
   })
 
 })
-
 
 
