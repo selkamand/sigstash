@@ -4,7 +4,11 @@
 \alias{sig_read_signatures}
 \title{Read a Signature Collection from a File}
 \usage{
-sig_read_signatures(filepath, format = c("rds", "csv_tidy"))
+sig_read_signatures(
+  filepath,
+  format = c("rds", "csv_tidy"),
+  collection_name = NULL
+)
 }
 \arguments{
 \item{filepath}{The file path from which the signature collection should be read.}
@@ -14,6 +18,10 @@ sig_read_signatures(filepath, format = c("rds", "csv_tidy"))
 \item{\strong{"rds"}}{Reads the collection from an RDS file.}
 \item{\strong{"csv_tidy"}}{Reads the collection from a tidy (long) CSV file and converts it to a list of signatures.}
 }}
+
+\item{collection_name}{A string specifying the signature collection name to be added as the 'collection_name' attribute
+of the parsed signature object.
+If NULL, name is guessed from the filename (before the first '.'). Ignored if \code{format = 'rds'}.}
 }
 \value{
 A list of signatures in sigstash format.
