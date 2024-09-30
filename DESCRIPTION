@@ -30,3 +30,5 @@ Imports:
     tibble
 Remotes:
     selkamand/sigshared
+Config/testthat/parallel: true
+Config/testthat/start-first: hash

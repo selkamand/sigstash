@@ -20,7 +20,17 @@ test_that("sig_write works", {
   # Tidy csv
   outfile_tidy = withr::local_file(.file = "test.tidy.csv")
   sig_write_signatures(signatures = signatures, filepath = outfile_tidy, format = "csv_tidy")
-  expect_equal(sig_read_signatures(filepath = outfile_tidy, format = "csv_tidy"), signatures)
+  sig_parsed <- expect_equal(sig_read_signatures(filepath = outfile_tidy, format = "csv_tidy"), signatures, ignore_attr = TRUE)
+
+  # Test attribute addition works as expected
+  expect_equal(attr(sig_parsed, "format"), "sigstash")
+  expect_equal(attr(sig_parsed, "collection_name"), "test")
+
+  # Test setting custom collection name works as expected
+  sig_parsed2 <- sig_read_signatures(filepath = outfile_tidy, format = "csv_tidy", collection_name = "mycollection")
+  expect_equal(attr(sig_parsed2, "format"), "sigstash")
+  expect_equal(attr(sig_parsed2, "collection_name"), "mycollection")
+
 
   # Wide CSV
   outfile_wide = withr::local_file(.file = "test.wide.csv")
