@@ -20,6 +20,9 @@ knitr::opts_chunk$set(
 [![CRAN status](https://www.r-pkg.org/badges/version/sigstash)](https://CRAN.R-project.org/package=sigstash)
 [![R-CMD-check](https://github.com/selkamand/sigstash/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/selkamand/sigstash/actions/workflows/R-CMD-check.yaml)
 [![Codecov test coverage](https://codecov.io/gh/selkamand/sigstash/branch/main/graph/badge.svg)](https://app.codecov.io/gh/selkamand/sigstash?branch=main)
+![GitHub Issues or Pull Requests](https://img.shields.io/github/issues-closed/selkamand/sigstash)
+[![code size](https://img.shields.io/github/languages/code-size/selkamand/sigstash.svg)](https://github.com/selkamand/sigstash)
+![GitHub last commit](https://img.shields.io/github/last-commit/selkamand/sigstash)
 <!-- badges: end -->
 
 **sigstash** makes it easy to load common mutational signature collections into R.
