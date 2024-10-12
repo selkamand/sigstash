@@ -129,21 +129,60 @@ sigminer_style_dbs78 <- c("AC>CA", "AC>CG", "AC>CT", "AC>GA", "AC>GG", "AC>GT", 
                           "TT>AC", "TT>AG", "TT>CA", "TT>CC", "TT>CG", "TT>GA", "TT>GC",
                           "TT>GG")
 
-test_that("Channel to Type conversion works", {
-  expect_no_error(sig_convert_channel2type(sbs1536_channels, sigclass = "SBS1536"))
-  expect_equal(unname(sig_convert_channel2type(sbs1536_channels, sigclass = "SBS1536")), sbs1536_type)
 
-  expect_error(sig_convert_channel2type(sbs1536_channels, sigclass = "SBS96"))
+# Channel to Type ---------------------------------------------------------
+test_that("sig_valid_sigclass includes all sigclasses we have in sigstash", {
+  ## READ WHEN TEST FAILS:
+  ## Failure of this test means we have a sigclass in sigstash::sig_available
+  ## without a matched function to map its channels to its types
+  ##
+  ## SOLUTION
+  ## 1. Add unsupported class to sig_valid_sigclass() [If its not already present]
+  ## 2. Add a relevant function to sig_get_channel_to_type_maps() [what to do will be obvious what to do once you look at function definition]
 
-  # Sigclass Chass
-  expect_no_error(sig_valid_sigclass())
+  # We must (at LEAST) consider all sigclasses we use in sigstash datasets 'valid'
+  unsupported_sigclasses <- setdiff(sig_get_sigclasses_used_in_sigstash_datasets(), sig_valid_sigclass())
 
-  for (sigclass in sig_valid_sigclass()) {
-    expect_no_error(sig_get_valid_cosmic_channels(sigclass))
-    expect_no_error(sig_get_valid_cosmic_types(sigclass))
+  expect_equal(unsupported_sigclasses, character(0))
+
+  # Do all 'valid' sigclasses have a valid  channel_to_type_maps
+  valid_sigclasses = sig_valid_sigclass()
+  for (sigclass in valid_sigclasses){
+    expect_no_error(sig_get_channel_to_type_maps(!!sigclass))
+    expect_no_error(sig_get_valid_cosmic_types(!!sigclass))
   }
 })
 
+test_that("Channel to Type conversion fails when expected", {
+  expect_no_error(sig_convert_channel2type(sbs1536_channels, sigclass = "SBS1536"))
+  expect_equal(unname(sig_convert_channel2type(sbs1536_channels, sigclass = "SBS1536")), sbs1536_type)
+  expect_error(sig_convert_channel2type(sbs1536_channels, sigclass = "SBS96"))
+})
+
+test_that("Channel to Type conversion works for all sigstash datasets", {
+
+  ## Failure tells is that sig_convert_channel2type run on a sigstash
+  ## Dataset doesn't produce the type described in the database.
+
+  ## Channel
+  df_available <- sig_available()
+  sigclasses=df_available[["sigclass"]]
+  datasets=df_available[["dataset"]]
+
+  for (i in seq_along(datasets)){
+    dataset = datasets[i]
+    collection = sig_load(dataset)
+    sigclass = sigclasses[i]
+    channels = collection[[1]][["channel"]]
+    types = collection[[1]][["type"]]
+
+    expect_equal(
+      sig_convert_channel2type(channel = channels, sigclass = !!sigclass),
+      types,
+      ignore_attr = TRUE
+    )
+  }
+})
 
 test_that("Cosmic to Sigminer conversion works", {
     expect_no_error(sig_convert_channel_name(cosmic_style_indels, from = "cosmic", to="sigminer"))
@@ -207,3 +246,5 @@ test_that("sig_load as sigminer works", {
   id_channels <- rownames(sig_load("COSMIC_v3.4_ID_GRCh37", format = "sigminer"))
   expect_equal(id_channels, sigminer_style_indels)
 })
+
+

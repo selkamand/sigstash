@@ -9,7 +9,7 @@ test_that("sig_available", {
   expect_s3_class(df_available, "data.frame")
 
   # Expected colnames
-  expect_equal(c("dataset", "description"), colnames(df_available), ignore_attr = TRUE)
+  expect_equal(c("dataset", "sigclass", "description"), colnames(df_available), ignore_attr = TRUE)
 
   # Data.frame has at least 1 row
   expect_true(nrow(df_available) > 0)
