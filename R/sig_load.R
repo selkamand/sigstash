@@ -16,7 +16,7 @@ load_datasets <- function() {
 #' @inherit sig_load examples
 sig_available <- function() {
   df_datasets <- load_datasets()
-  df_datasets <- df_datasets[, c("dataset", "description")]
+  df_datasets <- df_datasets[, c("dataset", "sigclass","description")]
 
   df_datasets <- tibble::tibble(df_datasets)
   return(df_datasets)
@@ -57,27 +57,29 @@ sig_load <- function(dataset, format = c("sigstash", "tidy", "sigminer")) {
 
   assertions::assert_subset(dataset, valid_datasets, msg = "`{arg_value}` is not a valid sigstash dataset. See {.code sig_available()} for a list of datasets")
 
-  path <- df_datasets[["path_signature"]][match(dataset, df_datasets[["dataset"]])]
+  index = match(dataset, df_datasets[["dataset"]])
+  path <- df_datasets[["path_signature"]][index]
   path <- system.file(path, package = "sigstash")
+  sigclass <- df_datasets[["sigclass"]][index]
 
   df_data <- utils::read.csv(path, header = TRUE)
 
   ls_data <- sig_collection_reformat_tidy_to_list(df_data)
 
   if (format == "sigstash") {
-    ls_data <- add_collection_attributes(ls_data, name = dataset, format = format)
+    ls_data <- add_collection_attributes(ls_data, name = dataset, format = format, sigclass = sigclass)
     return(ls_data)
   }
 
   if (format == "tidy") {
     df_data <- sig_collection_reformat_list_to_tidy(ls_data)
-    df_data <- add_collection_attributes(df_data, name = dataset, format = format)
+    df_data <- add_collection_attributes(df_data, name = dataset, format = format, sigclass = sigclass)
     return(df_data)
   }
 
   if (format == "sigminer") {
     df_data <- sig_collection_to_sigminer(ls_data)
-    df_data <- add_collection_attributes(df_data, name = dataset, format = format)
+    df_data <- add_collection_attributes(df_data, name = dataset, format = format, sigclass = sigclass)
     return(df_data)
   }
 
@@ -135,9 +137,10 @@ sig_load_annotations <- function(dataset) {
 
 
 # Adds attributes: collection_name and format
-add_collection_attributes <- function(obj, name, format){
+add_collection_attributes <- function(obj, name, format, sigclass = NULL){
   attr(obj, "collection_name") <- name
   attr(obj, "format") <- format
+  attr(obj, "sigclass") <- sigclass
 
   return(obj)
 }

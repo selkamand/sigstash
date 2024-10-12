@@ -66,7 +66,7 @@ sig_cosmic_to_sigstash <- function(data, sigclass = c("SBS", "ID", "CN", "DBS", 
 #' @examples
 #' sig_valid_sigclass()
 sig_valid_sigclass <- function() {
-  c("SBS96", "SBS1536", "ID83", "CN48", "CN80", "CN176", "DBS78", "SV32", "SV38", "RNA-SBS192")
+  c("SBS96", "SBS1536", "ID83", "CN48", "CN80", "CN176", "DBS78", "SV32", "SV38", "SBS192")
 }
 
 #' Channel to Type
@@ -125,6 +125,9 @@ sig_convert_channel2type <- function(channel, sigclass = "SBS96") {
   return(types)
 }
 
+sig_get_sigclasses_used_in_sigstash_datasets <- function(){
+  unique(sig_available()[["sigclass"]])
+}
 
 #' Get Valid COSMIC Channels and Types
 #'
@@ -168,8 +171,8 @@ sig_get_channel_to_type_maps <- function(sigclass) {
     "DBS78" = cosmic_dbs78_channel_to_type(),
     "SV32" = cosmic_sv32_channel_to_type(),
     "SV38" = cosmic_sv38_channel_to_type(),
-    "RNA-SBS192" = cosmic_rna_sbs192_channel_to_type(),
-    stop("unexpected sigclass")
+    "SBS192" = cosmic_rna_sbs192_channel_to_type(),
+    stop("unexpected sigclass: [", sigclass, "]")
   )
   return(vec_channel2type)
 }
@@ -299,38 +302,38 @@ cosmic_id83_channel_to_type <- function() {
 
 cosmic_sv32_channel_to_type <- function() {
   c(
-    "clustered_del_1-10Kb" = "clustered",
-    "clustered_del_10-100Kb" = "clustered",
-    "clustered_del_100Kb-1Mb" = "clustered",
-    "clustered_del_1Mb-10Mb" = "clustered",
-    "clustered_del_>10Mb" = "clustered",
-    "clustered_tds_1-10Kb" = "clustered",
-    "clustered_tds_10-100Kb" = "clustered",
-    "clustered_tds_100Kb-1Mb" = "clustered",
-    "clustered_tds_1Mb-10Mb" = "clustered",
-    "clustered_tds_>10Mb" = "clustered",
-    "clustered_inv_1-10Kb" = "clustered",
-    "clustered_inv_10-100Kb" = "clustered",
-    "clustered_inv_100Kb-1Mb" = "clustered",
-    "clustered_inv_1Mb-10Mb" = "clustered",
-    "clustered_inv_>10Mb" = "clustered",
-    "clustered_trans" = "clustered",
-    "non-clustered_del_1-10Kb" = "non-clustered",
-    "non-clustered_del_10-100Kb" = "non-clustered",
-    "non-clustered_del_100Kb-1Mb" = "non-clustered",
-    "non-clustered_del_1Mb-10Mb" = "non-clustered",
-    "non-clustered_del_>10Mb" = "non-clustered",
-    "non-clustered_tds_1-10Kb" = "non-clustered",
-    "non-clustered_tds_10-100Kb" = "non-clustered",
-    "non-clustered_tds_100Kb-1Mb" = "non-clustered",
-    "non-clustered_tds_1Mb-10Mb" = "non-clustered",
-    "non-clustered_tds_>10Mb" = "non-clustered",
-    "non-clustered_inv_1-10Kb" = "non-clustered",
-    "non-clustered_inv_10-100Kb" = "non-clustered",
-    "non-clustered_inv_100Kb-1Mb" = "non-clustered",
-    "non-clustered_inv_1Mb-10Mb" = "non-clustered",
-    "non-clustered_inv_>10Mb" = "non-clustered",
-    "non-clustered_trans" = "non-clustered"
+    "clustered_del_1-10Kb" = "Deletion",
+    "clustered_del_10-100Kb" = "Deletion",
+    "clustered_del_100Kb-1Mb" = "Deletion",
+    "clustered_del_1Mb-10Mb" = "Deletion",
+    "clustered_del_>10Mb" = "Deletion",
+    "clustered_tds_1-10Kb" = "Tandem Duplication",
+    "clustered_tds_10-100Kb" = "Tandem Duplication",
+    "clustered_tds_100Kb-1Mb" = "Tandem Duplication",
+    "clustered_tds_1Mb-10Mb" = "Tandem Duplication",
+    "clustered_tds_>10Mb" = "Tandem Duplication",
+    "clustered_inv_1-10Kb" = "Inversion",
+    "clustered_inv_10-100Kb" = "Inversion",
+    "clustered_inv_100Kb-1Mb" = "Inversion",
+    "clustered_inv_1Mb-10Mb" = "Inversion",
+    "clustered_inv_>10Mb" = "Inversion",
+    "clustered_trans" = "Translocation",
+    "non-clustered_del_1-10Kb" = "Deletion",
+    "non-clustered_del_10-100Kb" = "Deletion",
+    "non-clustered_del_100Kb-1Mb" = "Deletion",
+    "non-clustered_del_1Mb-10Mb" = "Deletion",
+    "non-clustered_del_>10Mb" = "Deletion",
+    "non-clustered_tds_1-10Kb" = "Tandem Duplication",
+    "non-clustered_tds_10-100Kb" = "Tandem Duplication",
+    "non-clustered_tds_100Kb-1Mb" = "Tandem Duplication",
+    "non-clustered_tds_1Mb-10Mb" = "Tandem Duplication",
+    "non-clustered_tds_>10Mb" = "Tandem Duplication",
+    "non-clustered_inv_1-10Kb" = "Inversion",
+    "non-clustered_inv_10-100Kb" = "Inversion",
+    "non-clustered_inv_100Kb-1Mb" = "Inversion",
+    "non-clustered_inv_1Mb-10Mb" = "Inversion",
+    "non-clustered_inv_>10Mb" = "Inversion",
+    "non-clustered_trans" = "Translocation"
   )
 }
 
