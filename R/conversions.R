@@ -429,69 +429,12 @@ sig_collection_to_sigminer <- function(signatures) {
   sigshared::assert_signature_collection(signatures)
   assertions::assert_greater_than(length(signatures), minimum = 0)
 
-  df_wide <- sig_collection_reformat_list_to_wide(signatures)
+  df_wide <- as.data.frame(sigshared::sig_collection_reformat_list_to_matrix(signatures))
 
   # Convert Sigstash (cosmic-style) Channel Names to Sigminer
   channels <- rownames(df_wide)
   sigminer_channels <- sig_convert_channel_name(channels, from = "cosmic", to = "sigminer")
   rownames(df_wide) <- sigminer_channels
-
-  return(df_wide)
-}
-
-sig_collection_reformat_list_to_tidy <- function(signatures){
-  sigshared::assert_signature_collection(signatures)
-  signatures <- lapply(seq_along(signatures), FUN = \(i){
-    signatures[[i]][["signature"]] <- names(signatures)[i]; return(signatures[[i]])
-  })
-
-  df <- do.call(rbind, signatures)
-  df <- df[c("signature", 'type', 'channel', 'fraction')]
-  return(df)
-}
-
-
-sig_collection_reformat_tidy_to_list <- function(signatures) {
-  # Ensure the input is a dataframe
-  assertions::assert_dataframe(signatures)
-  assertions::assert_names_include(signatures, c("signature", "type", "channel", "fraction"))
-  # Convert the 'signature' column to a factor to preserve its order during the split.
-  # Setting 'levels' based on the current order prevents lexicographic sorting,
-  # which can vary by locale and ensures that the split preserves the order
-  # in the original dataframe.
-  signatures[["signature"]] <- factor(
-    signatures[["signature"]],
-    levels = unique(signatures[["signature"]])
-  )
-
-  # Split the dataframe into a list of signature-specific dataframes,
-  # excluding the 'signature' column, which is now used as the list index.
-  ls_data <- split(signatures[c("type", "channel", "fraction")], signatures[["signature"]])
-
-  # Convert each dataframe in the list to a tibble for consistent formatting.
-  ls_data <- lapply(ls_data, tibble::tibble)
-
-  return(ls_data)
-}
-
-
-sig_collection_reformat_list_to_wide <- function(signatures){
-  sigshared::assert_signature_collection(signatures)
-  assertions::assert_greater_than(length(signatures), minimum = 0)
-
-  first_sig_channel_order <- signatures[[1]][["channel"]]
-
-  ls <- lapply(seq_along(signatures), FUN = \(i){
-    sig <- signatures[[i]]
-    assertions::assert_identical(first_sig_channel_order, sig[["channel"]])
-    df_fraction <- sig[, "fraction"]
-    colnames(df_fraction) <- names(signatures)[i]
-    return(df_fraction)
-  })
-
-  df_wide <- do.call("cbind", ls)
-
-  rownames(df_wide) <- first_sig_channel_order
 
   return(df_wide)
 }

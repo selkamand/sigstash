@@ -4,7 +4,7 @@
 \alias{sig_load}
 \title{Load a Signature Collection}
 \usage{
-sig_load(dataset, format = c("sigstash", "tidy", "sigminer"))
+sig_load(dataset, format = c("sigstash", "tidy", "sigminer", "matrix"))
 }
 \arguments{
 \item{dataset}{a valid signature collection to load. Run \code{\link[=sig_available]{sig_available()}} to list available datasets.}
@@ -20,9 +20,10 @@ Load a Signature Collection
 \details{
 Use the format \strong{format} argument to change return format:\tabular{ll}{
     \tab  \cr
-   \strong{sigstash} \tab Signatures returned as a list of dataframes where each data.frame is a signature \cr
-   \strong{tidy} \tab Signatures returned as a tidy 4-column dataframe with signature, type, channel, fraction \cr
-   \strong{sigminer} \tab Signatures returned as a single dataframe where columns are samples and rows are channels. Compatible with sigminer \cr
+   \strong{sigstash} \tab Signatures returned as a list of dataframes where each data.frame is a signature. \cr
+   \strong{tidy} \tab Signatures returned as a tidy 4-column dataframe with signature, type, channel, fraction. \cr
+   \strong{sigminer} \tab Signatures returned as a single dataframe where columns are signatures and rows are channels. Compatible with sigminer \cr
+   \strong{matrix} \tab Signatures returned as a single matrix where columns are signatures and rows are channels. \cr
 }
 }
 \examples{

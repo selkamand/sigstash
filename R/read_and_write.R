@@ -26,10 +26,10 @@ sig_write_signatures <- function(signatures, filepath, format = c("rds", "csv_ti
   if(format == "rds") {
     saveRDS(signatures, file = filepath, compress = TRUE)
   } else if(format == "csv_tidy") {
-    df_tidy <- sig_collection_reformat_list_to_tidy(signatures)
+    df_tidy <- sigshared::sig_collection_reformat_list_to_tidy(signatures)
     utils::write.csv(df_tidy, file = filepath, row.names = FALSE)
   } else if(format == "csv_wide") {
-    df_wide <- sig_collection_reformat_list_to_wide(signatures)
+    df_wide <- sigshared::sig_collection_reformat_list_to_matrix(signatures)
     utils::write.csv(df_wide, file = filepath, row.names = TRUE)
   } else {
     stop("Serialization of signature collection to format: ", format, " has not yet been implemented")
@@ -75,7 +75,7 @@ sig_read_signatures <- function(filepath, format = c("rds", "csv_tidy"), collect
   }
   else if(format == "csv_tidy") {
     df_tidy <- utils::read.csv(file = filepath, header = TRUE)
-    signatures <- sig_collection_reformat_tidy_to_list(df_tidy)
+    signatures <- sigshared::sig_collection_reformat_tidy_to_list(df_tidy)
 
     # Add attributes to signature collection
     if(is.null(collection_name)) {

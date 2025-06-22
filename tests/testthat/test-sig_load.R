@@ -31,6 +31,10 @@ test_that("sig_load works", {
   # Expect Dataframe Output When format = "sigminer"
   expect_s3_class(sig_load(datasets[1], format = "sigminer"), "data.frame")
 
+  # Expect Numeric Matrix Output When format = "matrix"
+  expect_true(is.matrix(sig_load(datasets[1], format = "matrix")))
+  expect_true(is.numeric(sig_load(datasets[1], format = "matrix")))
+
 })
 
 
