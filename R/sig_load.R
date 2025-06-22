@@ -64,7 +64,7 @@ sig_load <- function(dataset, format = c("sigstash", "tidy", "sigminer")) {
 
   df_data <- utils::read.csv(path, header = TRUE)
 
-  ls_data <- sig_collection_reformat_tidy_to_list(df_data)
+  ls_data <- sigshared::sig_collection_reformat_tidy_to_list(df_data)
 
   if (format == "sigstash") {
     ls_data <- add_collection_attributes(ls_data, name = dataset, format = format, sigclass = sigclass)
@@ -72,7 +72,7 @@ sig_load <- function(dataset, format = c("sigstash", "tidy", "sigminer")) {
   }
 
   if (format == "tidy") {
-    df_data <- sig_collection_reformat_list_to_tidy(ls_data)
+    df_data <- sigshared::sig_collection_reformat_list_to_tidy(ls_data)
     df_data <- add_collection_attributes(df_data, name = dataset, format = format, sigclass = sigclass)
     return(df_data)
   }
