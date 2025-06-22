@@ -44,10 +44,11 @@ sig_available <- function() {
 #'
 #' |                   |                                                                                               |
 #' |-------------------|-----------------------------------------------------------------------------------------------|
-#' | \strong{sigstash} | Signatures returned as a list of dataframes where each data.frame is a signature              |
-#' | \strong{tidy}     | Signatures returned as a tidy 4-column dataframe with signature, type, channel, fraction      |
-#' | \strong{sigminer} | Signatures returned as a single dataframe where columns are samples and rows are channels. Compatible with sigminer |
-sig_load <- function(dataset, format = c("sigstash", "tidy", "sigminer")) {
+#' | \strong{sigstash} | Signatures returned as a list of dataframes where each data.frame is a signature.              |
+#' | \strong{tidy}     | Signatures returned as a tidy 4-column dataframe with signature, type, channel, fraction.      |
+#' | \strong{sigminer} | Signatures returned as a single dataframe where columns are signatures and rows are channels. Compatible with sigminer |
+#' | \strong{matrix}   | Signatures returned as a single matrix where columns are signatures and rows are channels. |
+sig_load <- function(dataset, format = c("sigstash", "tidy", "sigminer", "matrix")) {
   # Assertions
   assertions::assert_string(dataset)
   format <- rlang::arg_match(format)
@@ -79,6 +80,12 @@ sig_load <- function(dataset, format = c("sigstash", "tidy", "sigminer")) {
 
   if (format == "sigminer") {
     df_data <- sig_collection_to_sigminer(ls_data)
+    df_data <- add_collection_attributes(df_data, name = dataset, format = format, sigclass = sigclass)
+    return(df_data)
+  }
+
+  if (format == "matrix") {
+    df_data <- sigshared::sig_collection_reformat_list_to_matrix(ls_data)
     df_data <- add_collection_attributes(df_data, name = dataset, format = format, sigclass = sigclass)
     return(df_data)
   }
